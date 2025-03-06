@@ -1,0 +1,24 @@
+{
+  "name": "@workspace/tailwind-config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules",
+    "format": "prettier --check \"**/*.{js,cjs,mjs,ts,tsx,mdx}\"",
+    "format:fix": "prettier --write \"**/*.{js,cjs,mjs,ts,tsx,mdx}\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@workspace/prettier-config": "workspace:*",
+    "autoprefixer": "10.4.20",
+    "postcss": "8.4.49",
+    "tailwindcss": "3.4.17",
+    "tailwindcss-animate": "1.0.7"
+  },
+  "prettier": "@workspace/prettier-config",
+  "exports": {
+    "./postcss.config": "./postcss.config.js",
+    ".": "./index.js"
+  }
+}

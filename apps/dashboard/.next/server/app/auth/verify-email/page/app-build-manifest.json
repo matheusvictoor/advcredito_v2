@@ -1,0 +1,28 @@
+{
+  "pages": {
+    "/auth/verify-email/page": [
+      "static/chunks/[root of the server]__54cf18._.css",
+      "static/chunks/08b5e__pnpm_dce8f4._.js",
+      "static/chunks/[project]__a11f50._.js",
+      "static/chunks/app_layout_tsx_b727ab._.js",
+      "static/chunks/08b5e__pnpm_339893._.js",
+      "static/chunks/[project]__040b6a._.js",
+      "static/chunks/app_not-found_tsx_f8565d._.js",
+      "static/chunks/[project]__57126b._.js",
+      "static/chunks/app_global-error_tsx_f8565d._.js",
+      "static/chunks/[project]__5e6c35._.js",
+      "static/chunks/app_auth_layout_tsx_f8565d._.js",
+      "static/chunks/08b5e__pnpm_049375._.js",
+      "static/chunks/[project]__91eb7f._.js",
+      "static/chunks/app_auth_verify-email_page_tsx_ad93e6._.js",
+      "static/chunks/d0430_next_dist_compiled_react-dom_dc5327._.js",
+      "static/chunks/d0430_next_dist_compiled_5009e3._.js",
+      "static/chunks/d0430_next_dist_client_0e10a2._.js",
+      "static/chunks/d0430_next_dist_f13507._.js",
+      "static/chunks/eae63_@swc_helpers_cjs_e27e0a._.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_26530c._.js",
+      "static/chunks/[project]_apps_dashboard_e69f0d._.js",
+      "static/chunks/[project]_apps_dashboard_9845b9._.js"
+    ]
+  }
+}

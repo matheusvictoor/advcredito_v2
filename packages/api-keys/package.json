@@ -1,0 +1,31 @@
+{
+  "name": "@workspace/api-keys",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "clean": "git clean -xdf .cache .turbo build dist node_modules",
+    "format": "prettier --check \"**/*.{js,cjs,mjs,ts,tsx,mdx}\"",
+    "format:fix": "prettier --write \"**/*.{js,cjs,mjs,ts,tsx,mdx}\"",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint --fix .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@workspace/common": "workspace:*",
+    "@workspace/database": "workspace:*",
+    "date-fns": "3.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.2",
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/prettier-config": "workspace:*",
+    "@workspace/typescript-config": "workspace:*"
+  },
+  "prettier": "@workspace/prettier-config",
+  "exports": {
+    "./generate-api-key": "./src/generate-api-key.ts",
+    "./hash-api-key": "./src/hash-api-key.ts",
+    "./verify-api-key": "./src/verify-api-key.ts"
+  }
+}

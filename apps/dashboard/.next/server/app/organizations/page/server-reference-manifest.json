@@ -1,0 +1,16 @@
+{
+  "node": {
+    "7f86376a97362c4df0e8fa650970019d18f79c93e0": {
+      "workers": {
+        "app/organizations/page": {
+          "moduleId": "[project]/apps/dashboard/.next-internal/server/app/organizations/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/dashboard/actions/auth/sign-out.ts [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/organizations/page": "action-browser"
+      }
+    }
+  },
+  "edge": {}
+}

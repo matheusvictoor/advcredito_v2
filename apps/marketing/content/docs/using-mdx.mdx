@@ -1,0 +1,256 @@
+---
+title: Using MDX
+description: A guide how to use Markdown elements and React components.
+---
+
+## Basic Elements
+
+### Text Formatting
+
+Text formatting with MDX supports various styles
+
+This is **bold text** and this is _italic text_
+
+This is **_bold italic text_** and this is ~~strikethrough~~
+
+This is `inline code` and this is a [link](https://example.com)
+
+You can also use <u>underlined text</u> when needed
+
+### Quotes
+
+Regular quote
+
+> This is a basic quote
+
+Nested quotes
+
+> First level
+>
+> > Second level
+> >
+> > > Third level
+
+Quote with mixed content
+
+> ### Heading in quote
+>
+> - List item in quote
+> - Another item
+>
+> ```js
+> // Code in quote
+> console.log('Hello');
+> ```
+
+### Lists and Items
+
+Unordered list
+
+- First item
+- Second item
+- Third item
+
+Ordered list
+
+1. First step
+2. Second step
+3. Third step
+
+Nested list
+
+- Main item
+  - Sub-item 1
+  - Sub-item 2
+    - Deep item 1
+    - Deep item 2
+  - Sub-item 3
+- Another item
+
+### Code Blocks
+
+Inline code `const example = true`.
+
+Basic JavaScript
+
+```javascript
+function greeting(name) {
+  return `Hello ${name}!`;
+}
+
+const result = greeting('World');
+console.log(result);
+```
+
+TypeScript example
+
+```typescript
+interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
+function processUser(user: User): void {
+  console.log(`Processing ${user.name}`);
+}
+```
+
+React component
+
+```tsx
+interface Props {
+  title: string;
+  children: React.ReactNode;
+}
+
+export function Card({ title, children }: Props) {
+  return (
+    <div className="card">
+      <h2>{title}</h2>
+      {children}
+    </div>
+  );
+}
+```
+
+### Tables
+
+| Header 1 | Header 2 | Header 3 |
+| -------- | -------- | -------- |
+| Cell 1   | Cell 2   | Cell 3   |
+| Cell 4   | Cell 5   | Cell 6   |
+
+### Layouts
+
+Grid layout
+
+<div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+  <div className="rounded border p-4">Item 1</div>
+  <div className="rounded border p-4">Item 2</div>
+  <div className="rounded border p-4">Item 3</div>
+</div>
+
+Flex layout
+
+<div className="flex flex-col gap-4 md:flex-row">
+  <div className="flex-1 rounded border p-4">Left</div>
+  <div className="flex-1 rounded border p-4">Right</div>
+</div>
+
+## Components
+
+### Accordion
+
+<div className="mt-4">
+  <Accordion type="multiple">
+    <AccordionItem value="item-1">
+      <AccordionTrigger>Getting Started</AccordionTrigger>
+      <AccordionContent>
+        Learn how to set up MDX in your project
+      </AccordionContent>
+    </AccordionItem>
+    <AccordionItem value="item-2">
+      <AccordionTrigger>Features</AccordionTrigger>
+      <AccordionContent>Still supports **markdown**.</AccordionContent>
+    </AccordionItem>
+    <AccordionItem value="item-3">
+      <AccordionTrigger>Advanced Usage</AccordionTrigger>
+      <AccordionContent>
+        Discover advanced features and customization options
+      </AccordionContent>
+    </AccordionItem>
+  </Accordion>
+</div>
+
+### Callout
+
+<div className="mt-4">
+  <Callout>This is a default callout providing additional information.</Callout>
+</div>
+
+### Image
+
+<Image
+  src="/assets/hero/light-feature1.webp"
+  alt="Example image"
+  width="1328"
+  height="727"
+  className="mt-4 rounded-lg border shadow dark:hidden"
+/>
+<Image
+  src="/assets/hero/dark-feature1.webp"
+  alt="Example image"
+  width="1328"
+  height="727"
+  className="mt-4 hidden rounded-lg border shadow dark:block"
+/>
+
+### Link
+
+<div className="mt-4">
+  <Link href="/auth/sign-up">Sign up</Link>
+</div>
+
+### Linked Card
+
+<LinkedCard
+  href="/auth/sign-up"
+  className="mt-4"
+>
+  <h3>Introduction</h3>
+  <p>Get started with our platform</p>
+</LinkedCard>
+
+### Tabs
+
+Basic tabs
+
+<Tabs defaultValue="overview">
+  <TabsList>
+    <TabsTrigger value="overview">Overview</TabsTrigger>
+    <TabsTrigger value="features">Features</TabsTrigger>
+    <TabsTrigger value="usage">Usage</TabsTrigger>
+  </TabsList>
+  <TabsContent value="overview">Get started with our components</TabsContent>
+  <TabsContent value="features">Explore available features</TabsContent>
+  <TabsContent value="usage">Learn how to use components</TabsContent>
+</Tabs>
+
+Code tabs
+
+<Tabs defaultValue="javascript">
+  <TabsList>
+    <TabsTrigger value="javascript">JavaScript</TabsTrigger>
+    <TabsTrigger value="typescript">TypeScript</TabsTrigger>
+    <TabsTrigger value="jsx">JSX</TabsTrigger>
+  </TabsList>
+  <TabsContent value="javascript">
+    ```javascript
+    function add(a, b) {
+      return a + b
+    }
+    ```
+  </TabsContent>
+  <TabsContent value="typescript">
+    ```typescript
+    function add(a: number, b: number): number {
+      return a + b
+    }
+    ```
+  </TabsContent>
+  <TabsContent value="jsx">
+    ```jsx
+    function Button({ children }) {
+      return <button>{children}</button>
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+## Resources
+
+- [MDX Documentation](https://mdxjs.com)
+- [React Documentation](https://react.dev)
+- [TypeScript Handbook](https://www.typescriptlang.org/docs)
+- [Accessibility Guidelines](https://www.w3.org/WAI/ARIA/apg)

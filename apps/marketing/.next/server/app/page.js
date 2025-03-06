@@ -1,0 +1,15 @@
+const CHUNK_PUBLIC_PATH = "server/app/page.js";
+const runtime = require("../chunks/ssr/[turbopack]_runtime.js");
+runtime.loadChunk("server/chunks/ssr/ef7c2_next_dist_73c983._.js");
+runtime.loadChunk("server/chunks/ssr/[root of the server]__e34dd5._.js");
+runtime.loadChunk("server/chunks/ssr/08b5e__pnpm_3489a4._.js");
+runtime.loadChunk("server/chunks/ssr/[root of the server]__3ce352._.js");
+runtime.loadChunk("server/chunks/ssr/[root of the server]__54cf18._.css");
+runtime.loadChunk("server/chunks/ssr/[project]__4c22a9._.js");
+runtime.loadChunk("server/chunks/ssr/08b5e__pnpm_f0050f._.js");
+runtime.loadChunk("server/chunks/ssr/ef7c2_next_dist_client_components_unauthorized-error_093776.js");
+runtime.loadChunk("server/chunks/ssr/app_global-error_tsx_a62498._.js");
+runtime.loadChunk("server/chunks/ssr/[project]__01fcf8._.js");
+runtime.loadChunk("server/chunks/ssr/08b5e__pnpm_c4a532._.js");
+runtime.getOrInstantiateRuntimeModule("[project]/apps/marketing/.next-internal/server/app/page/actions.js [app-rsc] (ecmascript)", CHUNK_PUBLIC_PATH);
+module.exports = runtime.getOrInstantiateRuntimeModule("[project]/node_modules/.pnpm/next@15.1.2_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => \"[project]/apps/marketing/app/global-error.tsx [app-rsc] (ecmascript, Next.js server component)\", MODULE_0 => \"[project]/apps/marketing/app/layout.tsx [app-rsc] (ecmascript, Next.js server component)\", MODULE_1 => \"[project]/apps/marketing/app/not-found.tsx [app-rsc] (ecmascript, Next.js server component)\", MODULE_2 => \"[project]/node_modules/.pnpm/next@15.1.2_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/client/components/forbidden-error.js [app-rsc] (ecmascript, Next.js server component)\", MODULE_3 => \"[project]/node_modules/.pnpm/next@15.1.2_react-dom@19.0.0_react@19.0.0__react@19.0.0/node_modules/next/dist/client/components/unauthorized-error.js [app-rsc] (ecmascript, Next.js server component)\", MODULE_4 => \"[project]/apps/marketing/app/global-error.tsx [app-rsc] (ecmascript, Next.js server component)\", MODULE_5 => \"[project]/apps/marketing/app/page.tsx [app-rsc] (ecmascript, Next.js server component)\" } [app-rsc] (ecmascript)", CHUNK_PUBLIC_PATH).exports;

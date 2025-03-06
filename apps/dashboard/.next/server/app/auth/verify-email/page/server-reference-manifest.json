@@ -1,0 +1,27 @@
+{
+  "node": {
+    "7f8778568f162166c6fe6c0e0bb95bc51ec57c2256": {
+      "workers": {
+        "app/auth/verify-email/page": {
+          "moduleId": "[project]/apps/dashboard/.next-internal/server/app/auth/verify-email/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/dashboard/actions/auth/resend-email-confirmation.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/dashboard/actions/auth/verify-email-with-otp.ts [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/auth/verify-email/page": "action-browser"
+      }
+    },
+    "7fcad3a67dfab3033c9f4ab3e4748082f93a6c8713": {
+      "workers": {
+        "app/auth/verify-email/page": {
+          "moduleId": "[project]/apps/dashboard/.next-internal/server/app/auth/verify-email/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/dashboard/actions/auth/resend-email-confirmation.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/dashboard/actions/auth/verify-email-with-otp.ts [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/auth/verify-email/page": "action-browser"
+      }
+    }
+  },
+  "edge": {}
+}

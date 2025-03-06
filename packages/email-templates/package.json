@@ -1,0 +1,42 @@
+{
+  "name": "@workspace/email-templates",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "clean": "git clean -xdf .cache .turbo build dist node_modules",
+    "format": "prettier --check \"**/*.{js,cjs,mjs,ts,tsx,mdx}\"",
+    "format:fix": "prettier --write \"**/*.{js,cjs,mjs,ts,tsx,mdx}\"",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint --fix .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@react-email/components": "0.0.31",
+    "@react-email/render": "1.0.3",
+    "@react-email/tailwind": "1.0.4",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "react-email": "3.0.4"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.2",
+    "@types/nodemailer": "6.4.17",
+    "@types/react": "19.0.2",
+    "@types/react-dom": "19.0.2",
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/prettier-config": "workspace:*",
+    "@workspace/typescript-config": "workspace:*"
+  },
+  "prettier": "@workspace/prettier-config",
+  "exports": {
+    "./confirm-email-address-change-email": "./src/confirm-email-address-change-email.tsx",
+    "./connected-account-security-alert-email": "./src/connected-account-security-alert-email.tsx",
+    "./feedback-email": "./src/feedback-email.tsx",
+    "./invitation-email": "./src/invitation-email.tsx",
+    "./password-reset-email": "./src/password-reset-email.tsx",
+    "./revoked-invitation-email": "./src/revoked-invitation-email.tsx",
+    "./verify-email-address-email": "./src/verify-email-address-email.tsx",
+    "./welcome-email": "./src/welcome-email.tsx"
+  }
+}

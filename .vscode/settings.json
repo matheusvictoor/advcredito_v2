@@ -1,0 +1,11 @@
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always",
+    "source.fixAll": "always"
+  },
+  "eslint.useFlatConfig": true,
+  "search.exclude": {
+    "**/.next": true
+  }
+}

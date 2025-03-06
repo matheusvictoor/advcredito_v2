@@ -1,0 +1,6 @@
+{
+  "/auth/sign-in/page": "app/auth/sign-in/page.js",
+  "/organizations/page": "app/organizations/page.js",
+  "/manifest.webmanifest/route": "app/manifest.webmanifest/route.js",
+  "/organizations/[slug]/(organization)/home/@mostVisitedContacts/page": "app/organizations/[slug]/(organization)/home/@mostVisitedContacts/page.js"
+}

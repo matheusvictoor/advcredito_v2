@@ -1,0 +1,10 @@
+---
+description: Organize code in a consistent and logical manner.
+globs: */**
+---
+- Structure files logically, grouping related components, helpers, types and static content.
+- Prefer named exports for components over default exports.
+- Favor small, single-purpose components over large, monolithic ones.
+- Separate concerns between presentational and container components.
+- Use `@workspace/*` as the namespace prefix in Turborepo.
+- Structure the Turborepo into three main workspaces: apps, packages and tooling.

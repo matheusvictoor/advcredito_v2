@@ -1,0 +1,39 @@
+{
+  "name": "@workspace/billing",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "clean": "git clean -xdf .cache .turbo build dist node_modules",
+    "format": "prettier --check \"**/*.{js,cjs,mjs,ts,tsx,mdx}\"",
+    "format:fix": "prettier --write \"**/*.{js,cjs,mjs,ts,tsx,mdx}\"",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint --fix .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@stripe/stripe-js": "4.8.0",
+    "@t3-oss/env-nextjs": "0.11.1",
+    "@workspace/database": "workspace:*",
+    "client-only": "0.0.1",
+    "server-only": "0.0.1",
+    "stripe": "16.12.0",
+    "zod": "3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.2",
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/prettier-config": "workspace:*",
+    "@workspace/typescript-config": "workspace:*"
+  },
+  "prettier": "@workspace/prettier-config",
+  "exports": {
+    "./keys": "./keys.ts",
+    "./billing-unit": "./src/billing-unit.ts",
+    "./organization": "./src/organization.ts",
+    "./stripe-client": "./src/stripe-client.ts",
+    "./stripe-server": "./src/stripe-server.ts",
+    "./subscription": "./src/subscription.ts",
+    "./tier": "./src/tier.ts"
+  }
+}

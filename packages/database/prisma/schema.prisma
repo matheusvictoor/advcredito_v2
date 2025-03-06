@@ -1,0 +1,461 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = []
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---- Enumerations ---- //
+
+enum ActionType {
+  CREATE @map("create")
+  UPDATE @map("update")
+  DELETE @map("delete")
+}
+
+enum ActorType {
+  SYSTEM @map("system")
+  MEMBER @map("member")
+  API    @map("api")
+}
+
+enum ContactRecord {
+  PERSON  @map("person")
+  COMPANY @map("company")
+}
+
+enum ContactStage {
+  LEAD           @map("lead")
+  QUALIFIED      @map("qualified")
+  OPPORTUNITY    @map("opportunity")
+  PROPOSAL       @map("proposal")
+  IN_NEGOTIATION @map("inNegotiation")
+  LOST           @map("lost")
+  WON            @map("won")
+}
+
+enum ContactTaskStatus {
+  OPEN      @map("open")
+  COMPLETED @map("completed")
+}
+
+enum DayOfWeek {
+  SUNDAY    @map("sunday")
+  MONDAY    @map("monday")
+  TUESDAY   @map("tuesday")
+  WEDNESDAY @map("wednesday")
+  THURSDAY  @map("thursday")
+  FRIDAY    @map("friday")
+  SATURDAY  @map("saturday")
+}
+
+enum FeedbackCategory {
+  SUGGESTION @map("suggestion")
+  PROBLEM    @map("problem")
+  QUESTION   @map("question")
+}
+
+enum InvitationStatus {
+  PENDING  @map("pending")
+  ACCEPTED @map("accepted")
+  REVOKED  @map("revoked")
+}
+
+enum Role {
+  MEMBER @map("member")
+  ADMIN  @map("admin")
+}
+
+enum WebhookTrigger {
+  CONTACT_CREATED @map("contactCreated")
+  CONTACT_UPDATED @map("contactUpdated")
+  CONTACT_DELETED @map("contactDeleted")
+}
+
+// ---- Models ---- //
+
+model Account {
+  id                String   @id(map: "PK_Account") @default(uuid()) @db.Uuid
+  userId            String   @db.Uuid
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?  @db.Text
+  access_token      String?  @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?  @db.Text
+  session_state     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId], map: "IX_Account_userId")
+}
+
+model ApiKey {
+  id             String       @id(map: "PK_ApiKey") @default(uuid()) @db.Uuid
+  organizationId String       @db.Uuid
+  description    String       @db.VarChar(70)
+  hashedKey      String       @unique()
+  expiresAt      DateTime?
+  lastUsedAt     DateTime?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([organizationId], map: "IX_ApiKey_organizationId")
+}
+
+model AuthenticatorApp {
+  id            String   @id(map: "PK_AuthenticatorApp") @default(uuid()) @db.Uuid
+  userId        String   @unique @db.Uuid
+  accountName   String   @db.VarChar(255)
+  issuer        String   @db.VarChar(255)
+  secret        String   @db.VarChar(255)
+  recoveryCodes String   @db.VarChar(1024)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([userId], map: "IX_AuthenticatorApp_userId")
+}
+
+model ChangeEmailRequest {
+  id        String   @id(map: "PK_ChangeEmailRequest") @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  email     String
+  expires   DateTime
+  valid     Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([userId], map: "IX_ChangeEmailRequest_userId")
+}
+
+model Contact {
+  id             String             @id(map: "PK_Contact") @default(uuid()) @db.Uuid
+  organizationId String             @db.Uuid
+  record         ContactRecord      @default(PERSON)
+  image          String?            @db.VarChar(2048)
+  name           String             @db.VarChar(255)
+  email          String?            @db.VarChar(255)
+  address        String?            @db.VarChar(255)
+  phone          String?            @db.VarChar(32)
+  stage          ContactStage       @default(LEAD)
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+  organization   Organization       @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  activities     ContactActivity[]
+  comments       ContactComment[]
+  notes          ContactNote[]
+  pageVisits     ContactPageVisit[]
+  tags           ContactTag[]
+  favorites      Favorite[]
+  tasks          ContactTask[]
+
+  @@index([organizationId], map: "IX_Contact_organizationId")
+}
+
+model ContactActivity {
+  id         String     @id(map: "PK_ContactActivity") @default(uuid()) @db.Uuid
+  contactId  String     @db.Uuid
+  actionType ActionType
+  actorId    String     @db.VarChar(255)
+  actorType  ActorType
+  metadata   Json?
+  occurredAt DateTime   @default(now())
+  contact    Contact    @relation(fields: [contactId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([contactId], map: "IX_ContactActivity_contactId")
+  @@index([occurredAt], map: "IX_ContactActivity_occurredAt")
+}
+
+model ContactComment {
+  id        String   @id(map: "PK_ContactComment") @default(uuid()) @db.Uuid
+  contactId String   @db.Uuid
+  userId    String   @db.Uuid
+  text      String   @db.VarChar(2000)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  contact   Contact  @relation(fields: [contactId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([contactId], map: "IX_ContactComment_contactId")
+  @@index([userId], map: "IX_ContactComment_userId")
+}
+
+model ContactImage {
+  id          String  @id(map: "PK_ContactImage") @default(uuid()) @db.Uuid
+  contactId   String  @db.Uuid
+  data        Bytes?
+  contentType String? @db.VarChar(255)
+  hash        String? @db.VarChar(64)
+
+  @@index([contactId], map: "IX_ContactImage_contactId")
+}
+
+model ContactNote {
+  id        String   @id(map: "PK_ContactNote") @default(uuid()) @db.Uuid
+  contactId String   @db.Uuid
+  userId    String   @db.Uuid
+  text      String?  @db.VarChar(8000)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  contact   Contact  @relation(fields: [contactId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([contactId], map: "IX_ContactNote_contactId")
+  @@index([userId], map: "IX_ContactNote_userId")
+}
+
+model ContactPageVisit {
+  id        String   @id(map: "PK_ContactPageVisit") @default(uuid()) @db.Uuid
+  contactId String   @db.Uuid
+  userId    String?  @db.Uuid
+  timestamp DateTime @default(now())
+  contact   Contact  @relation(fields: [contactId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+
+  @@index([contactId], map: "IX_ContactPageVisit_contactId")
+  @@index([userId], map: "IX_ContactPageVisit_userId")
+}
+
+model ContactTag {
+  id       String    @id(map: "PK_ContactTag") @default(uuid()) @db.Uuid
+  text     String    @unique @db.VarChar(128)
+  contacts Contact[]
+}
+
+model ContactTask {
+  id          String            @id(map: "PK_ContactTask") @default(uuid()) @db.Uuid
+  contactId   String            @db.Uuid
+  title       String            @db.VarChar(255)
+  description String?           @db.VarChar(8000)
+  status      ContactTaskStatus @default(OPEN)
+  dueDate     DateTime?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  contact     Contact           @relation(fields: [contactId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([contactId], map: "IX_ContactTask_contactId")
+}
+
+model Favorite {
+  id        String  @id(map: "PK_Favorite") @default(uuid()) @db.Uuid
+  userId    String  @db.Uuid
+  contactId String  @db.Uuid
+  order     Int     @default(0)
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  contact   Contact @relation(fields: [contactId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([userId], map: "IX_Favorite_userId")
+  @@index([contactId], map: "IX_Favorite_contactId")
+}
+
+model Feedback {
+  id             String           @id(map: "PK_Feedback") @default(uuid()) @db.Uuid
+  organizationId String           @db.Uuid
+  userId         String?          @db.Uuid
+  category       FeedbackCategory @default(SUGGESTION)
+  message        String           @db.VarChar(4000)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  organization   Organization     @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user           User?            @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+
+  @@index([organizationId], map: "IX_Feedback_organizationId")
+  @@index([userId], map: "IX_Feedback_userId")
+}
+
+model Invitation {
+  id             String           @id(map: "PK_Invitation") @default(uuid()) @db.Uuid
+  organizationId String           @db.Uuid
+  token          String           @default(uuid()) @db.Uuid
+  email          String           @db.VarChar(255)
+  role           Role             @default(MEMBER)
+  status         InvitationStatus @default(PENDING)
+  lastSentAt     DateTime?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  organization   Organization     @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([organizationId], map: "IX_Invitation_organizationId")
+  @@index([token], map: "IX_Invitation_token")
+}
+
+model Membership {
+  id                String         @id(map: "PK_Membership") @default(uuid()) @db.Uuid
+  organizationId    String         @db.Uuid
+  userId            String         @db.Uuid
+  role              Role           @default(MEMBER)
+  isOwner           Boolean        @default(false)
+  createdAt         DateTime       @default(now())
+  user              User           @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  organization      Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+ 
+  @@unique([organizationId, userId])
+}
+
+model Notification {
+  id        String    @id(map: "PK_Notification") @default(uuid()) @db.Uuid
+  userId    String    @db.Uuid
+  subject   String?   @db.VarChar(128)
+  content   String    @db.VarChar(8000)
+  link      String?   @db.VarChar(2000)
+  seenAt    DateTime?
+  dismissed Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([userId], map: "IX_Notification_userId")
+}
+
+model Organization {
+  id                  String       @id(map: "PK_Organization") @default(uuid()) @db.Uuid
+  stripeCustomerId    String
+  slug                String       @unique @db.VarChar(255)
+  logo                String?      @db.VarChar(2048)
+  name                String       @db.VarChar(255)
+  address             String?      @db.VarChar(255)
+  phone               String?      @db.VarChar(32)
+  email               String?      @db.VarChar(255)
+  website             String?      @db.VarChar(2000)
+  linkedInProfile     String?      @db.VarChar(2000)
+  instagramProfile    String?      @db.VarChar(2000)
+  youTubeChannel      String?      @db.VarChar(2000)
+  xProfile            String?      @db.VarChar(2000)
+  tikTokProfile       String?      @db.VarChar(2000)
+  facebookPage        String?      @db.VarChar(2000)
+  tier                String       @default("free") @db.VarChar(255)
+  apiKeys             ApiKey[]
+  businessHours       WorkHours[]
+  contacts            Contact[]
+  feedback            Feedback[]
+  invitations         Invitation[]
+  memberships         Membership[]
+  webhooks            Webhook[]
+
+  @@index([stripeCustomerId], map: "IX_Organization_stripeCustomerId")
+}
+
+model OrganizationLogo {
+  id          String  @id(map: "PK_OrganizationLogo") @default(uuid()) @db.Uuid
+  organizationId   String  @db.Uuid
+  data        Bytes?
+  contentType String? @db.VarChar(255)
+  hash        String? @db.VarChar(64)
+
+  @@index([organizationId], map: "IX_OrganizationLogo_organizationId")
+}
+
+model ResetPasswordRequest {
+  id        String   @id(map: "PK_ResetPasswordRequest") @default(uuid()) @db.Uuid
+  email     String
+  expires   DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email], map: "IX_ResetPasswordRequest_email")
+}
+
+model Session {
+  id           String   @id(map: "PK_Session") @default(uuid()) @db.Uuid
+  sessionToken String   @unique
+  userId       String   @db.Uuid
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([userId], map: "IX_Session_userId")
+}
+
+model User {
+  id                           String               @id(map: "PK_User") @default(uuid()) @db.Uuid
+  image                        String?              @db.VarChar(2048)
+  name                         String               @db.VarChar(64)
+  email                        String?              @unique
+  emailVerified                DateTime?
+  password                     String?              @db.VarChar(60)
+  lastLogin                    DateTime?
+  phone                        String?              @db.VarChar(32)
+  locale                       String               @default("en-US") @db.VarChar(8)
+  completedOnboarding          Boolean              @default(false)
+  enabledContactsNotifications Boolean              @default(false)
+  enabledInboxNotifications    Boolean              @default(false)
+  enabledWeeklySummary         Boolean              @default(false)
+  enabledNewsletter            Boolean              @default(false)
+  enabledProductUpdates        Boolean              @default(false)
+  createdAt                    DateTime             @default(now())
+  updatedAt                    DateTime             @updatedAt
+  accounts                     Account[]
+  authenticatorApp             AuthenticatorApp?
+  changeEmailRequests          ChangeEmailRequest[]
+  comments                     ContactComment[]
+  favorites                    Favorite[]
+  feedback                     Feedback[]
+  notes                        ContactNote[]
+  memberships                  Membership[]
+  notifications                Notification[]
+  pageVisits                   ContactPageVisit[]
+  sessions                     Session[]
+}
+
+model UserImage {
+  id          String  @id(map: "PK_UserImage") @default(uuid()) @db.Uuid
+  userId      String  @db.Uuid
+  data        Bytes?
+  contentType String? @db.VarChar(255)
+  hash        String? @db.VarChar(64)
+
+  @@index([userId], map: "IX_UserImage_userId")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Webhook {
+  id             String           @id(map: "PK_Webhook") @default(uuid()) @db.Uuid
+  organizationId String           @db.Uuid
+  url            String           @db.VarChar(2000)
+  triggers       WebhookTrigger[]
+  secret         String?          @db.VarChar(1024)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  organization   Organization     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId], map: "IX_Webhook_organizationId")
+}
+
+model WorkHours {
+  id             String         @id(map: "PK_WorkHours") @default(uuid()) @db.Uuid
+  organizationId String         @db.Uuid
+  dayOfWeek      DayOfWeek      @default(SUNDAY)
+  organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  timeSlots      WorkTimeSlot[]
+
+  @@index([organizationId], map: "IX_WorkHours_organizationId")
+}
+
+model WorkTimeSlot {
+  id          String    @id(map: "PK_WorkTimeSlot") @default(uuid()) @db.Uuid
+  workHoursId String    @db.Uuid
+  start       DateTime  @db.Time(0)
+  end         DateTime  @db.Time(0)
+  workHours   WorkHours @relation(fields: [workHoursId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([workHoursId], map: "IX_WorkTimeSlot_workHoursId")
+}

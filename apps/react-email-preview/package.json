@@ -1,0 +1,28 @@
+{
+  "name": "react-email-preview",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "email dev --port 3003",
+    "export": "email export",
+    "clean": "git clean -xdf .cache .turbo build dist node_modules",
+    "format": "prettier --check \"**/*.{js,cjs,mjs,ts,tsx,mdx}\"",
+    "format:fix": "prettier --write \"**/*.{js,cjs,mjs,ts,tsx,mdx}\"",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint --fix .",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "@react-email/components": "0.0.31",
+    "@workspace/email-templates": "workspace:*",
+    "react": "19.0.0",
+    "react-email": "3.0.4"
+  },
+  "devDependencies": {
+    "@types/react": "19.0.2",
+    "@workspace/eslint-config": "workspace:*",
+    "@workspace/prettier-config": "workspace:*",
+    "@workspace/typescript-config": "workspace:*"
+  },
+  "prettier": "@workspace/prettier-config"
+}
