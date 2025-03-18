@@ -76,11 +76,10 @@ export function ForgotPasswordCard({
     >
       <CardHeader>
         <CardTitle className="text-base lg:text-lg">
-          Forgot your password?
+          Esqueceu sua senha?
         </CardTitle>
         <CardDescription>
-          No worries! We'll send you a link with instructions on how to reset
-          your password.
+          Sem problemas! Enviaremos um link com instruções de como redefinir sua senha.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -125,18 +124,18 @@ export function ForgotPasswordCard({
               disabled={!canSubmit}
               loading={methods.formState.isSubmitting}
             >
-              Send instructions
+              Enviar instruções
             </Button>
           </form>
         </FormProvider>
       </CardContent>
       <CardFooter className="flex justify-center gap-1 text-sm text-muted-foreground">
-        <span>Remembered your password?</span>
+        <span>Lembrou sua senha?</span>
         <Link
           href={routes.dashboard.auth.SignIn}
           className="text-foreground underline"
         >
-          Sign in
+          Entrar
         </Link>
       </CardFooter>
     </Card>
