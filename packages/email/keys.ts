@@ -4,7 +4,7 @@ import { z } from 'zod';
 export const keys = () =>
   createEnv({
     server: {
-      EMAIL_FROM: z.string(), // emails can be in format "Acme <noreply@mailer.example.com>"
+      EMAIL_FROM: z.string(), // emails can be in format "Advcredito <noreply@mailer.example.com>"
       EMAIL_FEEDBACK_INBOX: z.string().email().optional(),
       EMAIL_MAILER: z.enum(['NodeMailer', 'Resend']),
       // credentials (you just need one)

@@ -5,7 +5,7 @@ import { RevokedInvitationEmail } from '@workspace/email-templates/revoked-invit
 export default function RenderedEmail(): React.JSX.Element {
   return (
     <RevokedInvitationEmail
-      appName="Acme"
+      appName="Advcredito"
       organizationName="Evil Corp"
     />
   );

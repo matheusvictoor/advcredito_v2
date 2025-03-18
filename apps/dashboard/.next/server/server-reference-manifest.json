@@ -1,9 +1,25 @@
 {
   "node": {
+    "7fb0743549a27029c6fb25fffb22225e147cb85af0": {
+      "workers": {
+        "app/auth/sign-in/page": {
+          "moduleId": "[project]/apps/dashboard/.next-internal/server/app/auth/sign-in/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/dashboard/actions/auth/sign-in-with-credentials.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/dashboard/actions/auth/continue-with-microsoft.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/apps/dashboard/actions/auth/continue-with-google.ts [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)",
+          "async": false
+        },
+        "app/auth/sign-up/page": {
+          "moduleId": "[project]/apps/dashboard/.next-internal/server/app/auth/sign-up/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/dashboard/actions/auth/sign-up.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/dashboard/actions/auth/continue-with-microsoft.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/apps/dashboard/actions/auth/continue-with-google.ts [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/auth/sign-in/page": "action-browser",
+        "app/auth/sign-up/page": "action-browser"
+      }
+    },
     "7fdfa5b8f6ab32670ee8bc755555cebcc60a29f051": {
       "workers": {
         "app/auth/sign-in/page": {
-          "moduleId": "[project]/apps/dashboard/.next-internal/server/app/auth/sign-in/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/dashboard/actions/auth/sign-in-with-credentials.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/dashboard/actions/auth/continue-with-google.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/apps/dashboard/actions/auth/continue-with-microsoft.ts [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)",
+          "moduleId": "[project]/apps/dashboard/.next-internal/server/app/auth/sign-in/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/dashboard/actions/auth/sign-in-with-credentials.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/dashboard/actions/auth/continue-with-microsoft.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/apps/dashboard/actions/auth/continue-with-google.ts [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)",
           "async": false
         }
       },
@@ -14,94 +30,28 @@
     "7f0a76cd5cecb55abf84fe1618615ee6d3a289f287": {
       "workers": {
         "app/auth/sign-in/page": {
-          "moduleId": "[project]/apps/dashboard/.next-internal/server/app/auth/sign-in/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/dashboard/actions/auth/sign-in-with-credentials.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/dashboard/actions/auth/continue-with-google.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/apps/dashboard/actions/auth/continue-with-microsoft.ts [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)",
-          "async": false
-        }
-      },
-      "layer": {
-        "app/auth/sign-in/page": "action-browser"
-      }
-    },
-    "7fb0743549a27029c6fb25fffb22225e147cb85af0": {
-      "workers": {
-        "app/auth/sign-in/page": {
-          "moduleId": "[project]/apps/dashboard/.next-internal/server/app/auth/sign-in/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/dashboard/actions/auth/sign-in-with-credentials.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/dashboard/actions/auth/continue-with-google.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/apps/dashboard/actions/auth/continue-with-microsoft.ts [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)",
-          "async": false
-        }
-      },
-      "layer": {
-        "app/auth/sign-in/page": "action-browser"
-      }
-    },
-    "7f86376a97362c4df0e8fa650970019d18f79c93e0": {
-      "workers": {
-        "app/organizations/page": {
-          "moduleId": "[project]/apps/dashboard/.next-internal/server/app/organizations/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/dashboard/actions/auth/sign-out.ts [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)",
+          "moduleId": "[project]/apps/dashboard/.next-internal/server/app/auth/sign-in/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/dashboard/actions/auth/sign-in-with-credentials.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/dashboard/actions/auth/continue-with-microsoft.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/apps/dashboard/actions/auth/continue-with-google.ts [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)",
           "async": false
         },
-        "app/organizations/[slug]/(organization)/home/@mostVisitedContacts/page": {
-          "moduleId": "[project]/apps/dashboard/.next-internal/server/app/organizations/[slug]/(organization)/home/@mostVisitedContacts/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/dashboard/actions/favorites/reorder-favorites.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/dashboard/actions/feedback/send-feedback.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/apps/dashboard/actions/invitations/send-invitation.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/apps/dashboard/actions/invitations/check-if-can-be-invited.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/apps/dashboard/actions/favorites/remove-favorite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/apps/dashboard/actions/auth/sign-out.ts [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)",
+        "app/auth/sign-up/page": {
+          "moduleId": "[project]/apps/dashboard/.next-internal/server/app/auth/sign-up/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/dashboard/actions/auth/sign-up.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/dashboard/actions/auth/continue-with-microsoft.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/apps/dashboard/actions/auth/continue-with-google.ts [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)",
           "async": false
         }
       },
       "layer": {
-        "app/organizations/page": "action-browser",
-        "app/organizations/[slug]/(organization)/home/@mostVisitedContacts/page": "action-browser"
+        "app/auth/sign-in/page": "action-browser",
+        "app/auth/sign-up/page": "action-browser"
       }
     },
-    "7f619e1a7e15a0e5d46a2974ffc69b8a5be9a47539": {
+    "7f614c3312b4076135b254d31a4f38dee6514098cd": {
       "workers": {
-        "app/organizations/[slug]/(organization)/home/@mostVisitedContacts/page": {
-          "moduleId": "[project]/apps/dashboard/.next-internal/server/app/organizations/[slug]/(organization)/home/@mostVisitedContacts/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/dashboard/actions/favorites/reorder-favorites.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/dashboard/actions/feedback/send-feedback.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/apps/dashboard/actions/invitations/send-invitation.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/apps/dashboard/actions/invitations/check-if-can-be-invited.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/apps/dashboard/actions/favorites/remove-favorite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/apps/dashboard/actions/auth/sign-out.ts [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)",
+        "app/auth/sign-up/page": {
+          "moduleId": "[project]/apps/dashboard/.next-internal/server/app/auth/sign-up/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/dashboard/actions/auth/sign-up.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/dashboard/actions/auth/continue-with-microsoft.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/apps/dashboard/actions/auth/continue-with-google.ts [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)",
           "async": false
         }
       },
       "layer": {
-        "app/organizations/[slug]/(organization)/home/@mostVisitedContacts/page": "action-browser"
-      }
-    },
-    "7f3d63f39d9f62d79a13d757ec55ab70e5aa66864d": {
-      "workers": {
-        "app/organizations/[slug]/(organization)/home/@mostVisitedContacts/page": {
-          "moduleId": "[project]/apps/dashboard/.next-internal/server/app/organizations/[slug]/(organization)/home/@mostVisitedContacts/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/dashboard/actions/favorites/reorder-favorites.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/dashboard/actions/feedback/send-feedback.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/apps/dashboard/actions/invitations/send-invitation.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/apps/dashboard/actions/invitations/check-if-can-be-invited.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/apps/dashboard/actions/favorites/remove-favorite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/apps/dashboard/actions/auth/sign-out.ts [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)",
-          "async": false
-        }
-      },
-      "layer": {
-        "app/organizations/[slug]/(organization)/home/@mostVisitedContacts/page": "action-browser"
-      }
-    },
-    "7fc50351516d93d63a510e2348d0d6346d2b30713b": {
-      "workers": {
-        "app/organizations/[slug]/(organization)/home/@mostVisitedContacts/page": {
-          "moduleId": "[project]/apps/dashboard/.next-internal/server/app/organizations/[slug]/(organization)/home/@mostVisitedContacts/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/dashboard/actions/favorites/reorder-favorites.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/dashboard/actions/feedback/send-feedback.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/apps/dashboard/actions/invitations/send-invitation.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/apps/dashboard/actions/invitations/check-if-can-be-invited.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/apps/dashboard/actions/favorites/remove-favorite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/apps/dashboard/actions/auth/sign-out.ts [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)",
-          "async": false
-        }
-      },
-      "layer": {
-        "app/organizations/[slug]/(organization)/home/@mostVisitedContacts/page": "action-browser"
-      }
-    },
-    "7f9fd50dae263a28503563c2de8d61e2943e181a46": {
-      "workers": {
-        "app/organizations/[slug]/(organization)/home/@mostVisitedContacts/page": {
-          "moduleId": "[project]/apps/dashboard/.next-internal/server/app/organizations/[slug]/(organization)/home/@mostVisitedContacts/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/dashboard/actions/favorites/reorder-favorites.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/dashboard/actions/feedback/send-feedback.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/apps/dashboard/actions/invitations/send-invitation.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/apps/dashboard/actions/invitations/check-if-can-be-invited.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/apps/dashboard/actions/favorites/remove-favorite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/apps/dashboard/actions/auth/sign-out.ts [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)",
-          "async": false
-        }
-      },
-      "layer": {
-        "app/organizations/[slug]/(organization)/home/@mostVisitedContacts/page": "action-browser"
-      }
-    },
-    "7fbe0a83dffc3eb5d961fb850a508066561f321df9": {
-      "workers": {
-        "app/organizations/[slug]/(organization)/home/@mostVisitedContacts/page": {
-          "moduleId": "[project]/apps/dashboard/.next-internal/server/app/organizations/[slug]/(organization)/home/@mostVisitedContacts/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/dashboard/actions/favorites/reorder-favorites.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/apps/dashboard/actions/feedback/send-feedback.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/apps/dashboard/actions/invitations/send-invitation.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE3 => \"[project]/apps/dashboard/actions/invitations/check-if-can-be-invited.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE4 => \"[project]/apps/dashboard/actions/favorites/remove-favorite.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE5 => \"[project]/apps/dashboard/actions/auth/sign-out.ts [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)",
-          "async": false
-        }
-      },
-      "layer": {
-        "app/organizations/[slug]/(organization)/home/@mostVisitedContacts/page": "action-browser"
+        "app/auth/sign-up/page": "action-browser"
       }
     }
   },

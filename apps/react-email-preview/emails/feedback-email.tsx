@@ -5,7 +5,7 @@ import { FeedbackEmail } from '@workspace/email-templates/feedback-email';
 export default function RenderedEmail(): React.JSX.Element {
   return (
     <FeedbackEmail
-      appName="Acme"
+      appName="Advcredito"
       category="Feature Request"
       email="john.doe@gmail.com"
       message="I would like to request a feature that allows me to change my email address."

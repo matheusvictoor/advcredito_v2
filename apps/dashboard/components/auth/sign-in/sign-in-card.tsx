@@ -17,7 +17,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
   type CardProps
@@ -103,7 +102,7 @@ export function SignInCard({
     setIsLoading(true);
     const result = await continueWithGoogle();
     if (result?.serverError || result?.validationErrors) {
-      toast.error("Couldn't continue with Google");
+      toast.error("Não foi possível continuar com o Google");
     }
     setIsLoading(false);
   };
@@ -114,7 +113,7 @@ export function SignInCard({
     setIsLoading(true);
     const result = await continueWithMicrosoft();
     if (result?.serverError || result?.validationErrors) {
-      toast.error("Couldn't continue with Google");
+      toast.error("Não foi possível continuar com a Microsoft");
     }
     setIsLoading(false);
   };
@@ -128,10 +127,10 @@ export function SignInCard({
     >
       <CardHeader>
         <CardTitle className="text-base lg:text-lg">
-          Sign in to your account
+          Faça login em sua conta
         </CardTitle>
-        <CardDescription>
-          Welcome back! Please sign in to continue.
+        <CardDescription className='text-xs'>
+          Bem vindo de volta! Faça login para continuar.
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
@@ -167,12 +166,12 @@ export function SignInCard({
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <div className="flex flex-row items-center justify-between">
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>Senha</FormLabel>
                     <Link
                       href={routes.dashboard.auth.forgetPassword.Index}
                       className="ml-auto inline-block text-sm underline"
                     >
-                      Forgot password?
+                      Esqueceu a senha?
                     </Link>
                   </div>
                   <FormControl>
@@ -253,15 +252,6 @@ export function SignInCard({
           </Button>
         </div>
       </CardContent>
-      <CardFooter className="flex justify-center gap-1 text-sm text-muted-foreground">
-        <span>Don't have an account?</span>
-        <Link
-          href={routes.dashboard.auth.SignUp}
-          className="text-foreground underline"
-        >
-          Sign up
-        </Link>
-      </CardFooter>
     </Card>
   );
 }

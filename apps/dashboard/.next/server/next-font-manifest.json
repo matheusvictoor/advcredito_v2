@@ -3,10 +3,7 @@
     "[project]/apps/dashboard/app/auth/sign-in/page": [
       "static/media/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw-s.p.7b3669ea.woff2"
     ],
-    "[project]/apps/dashboard/app/organizations/page": [
-      "static/media/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw-s.p.7b3669ea.woff2"
-    ],
-    "[project]/apps/dashboard/app/organizations/[slug]/(organization)/home/@mostVisitedContacts/page": [
+    "[project]/apps/dashboard/app/auth/sign-up/page": [
       "static/media/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7W0Q5nw-s.p.7b3669ea.woff2"
     ]
   },

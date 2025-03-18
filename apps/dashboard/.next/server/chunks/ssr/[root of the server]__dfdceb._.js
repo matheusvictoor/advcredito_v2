@@ -39,7 +39,7 @@ __turbopack_esm__({
     "APP_DESCRIPTION": (()=>APP_DESCRIPTION),
     "APP_NAME": (()=>APP_NAME)
 });
-const APP_NAME = 'Acme';
+const APP_NAME = 'Advcredito';
 const APP_DESCRIPTION = 'A fantastic SaaS to make your life easier.';
 }}),
 "[project]/packages/routes/keys.ts [app-rsc] (ecmascript)": ((__turbopack_context__) => {

@@ -6,7 +6,7 @@ export const passThroughCredentialsSchema = z.object({
       invalid_type_error: 'Email must be a string.'
     })
     .trim()
-    .max(255, 'Maximum 255 characters allowed.'),
+    .max(255, 'Máximo de 255 caracteres permitidos.'),
   password: z
     .string({
       required_error: 'Password is required.',

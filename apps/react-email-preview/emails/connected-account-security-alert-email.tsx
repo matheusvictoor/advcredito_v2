@@ -6,7 +6,7 @@ export default function RenderedEmail(): React.JSX.Element {
   return (
     <ConnectedAccountSecurityAlertEmail
       action="disconnected"
-      appName="Acme"
+      appName="Advcredito"
       name="John Doe"
       provider="Google"
     />
