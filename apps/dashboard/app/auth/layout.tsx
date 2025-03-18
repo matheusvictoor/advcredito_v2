@@ -36,7 +36,7 @@ export default async function AuthLayout({
     <main className="h-screen dark:bg-background bg-gray-50 px-4">
       <div className="mx-auto w-full min-w-[320px] space-y-6 py-12 max-w-sm">
         <Link
-          href={routes.marketing.Index}
+          href={routes.dashboard.Index}
           className="block w-fit mx-auto"
         >
           <Logo />

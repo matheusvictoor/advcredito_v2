@@ -1,2 +1,2 @@
 export const APP_NAME = 'Advcredito';
-export const APP_DESCRIPTION = 'A fantastic SaaS to make your life easier.';
+export const APP_DESCRIPTION = 'Um sistema espetacular para tornar o gerenciamento de seus inquilinos mais fácil.';

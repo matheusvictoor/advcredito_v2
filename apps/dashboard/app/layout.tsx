@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   manifest: `${baseUrl.Dashboard}/manifest`,
   openGraph: {
     type: 'website',
-    locale: 'en_US',
+    locale: 'pt_BR',
     siteName: APP_NAME,
     title: APP_NAME,
     description: APP_DESCRIPTION,
@@ -58,7 +58,7 @@ export default async function RootLayout({
 }: React.PropsWithChildren): Promise<React.JSX.Element> {
   return (
     <html
-      lang="en"
+      lang="pt-BR"
       className="size-full min-h-screen"
       suppressHydrationWarning
     >
