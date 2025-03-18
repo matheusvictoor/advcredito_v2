@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 6, "column": 0}, "map": {"version":3,"sources":["file://D%3A/Haleem%20Projects/Sandeep/MyTrail/pro-monorepo-next-prisma-authjs/apps/dashboard/node_modules/.pnpm/next%4015.1.2_%40babel%2Bcore%407.26.7_react-dom%4019.0.0_react%4019.0.0__react%4019.0.0/node_modules/next/src/client/components/parallel-route-default.tsx"],"sourcesContent":["import { notFound } from './not-found'\n\nexport const PARALLEL_ROUTE_DEFAULT_PATH =\n  'next/dist/client/components/parallel-route-default.js'\n\nexport default function ParallelRouteDefault() {\n  notFound()\n}\n"],"names":["PARALLEL_ROUTE_DEFAULT_PATH","ParallelRouteDefault","notFound"],"mappings":";;;;;;;;;;;;;;;IAEaA,2BAA2B,EAAA;eAA3BA;;IAGb,OAEC,EAAA;eAFuBC;;;0BALC;AAElB,MAAMD,8BACX;AAEa,SAASC;IACtBC,CAAAA,GAAAA,UAAAA,QAAQ;AACV","ignoreList":[0]}},
-    {"offset": {"line": 40, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
-}

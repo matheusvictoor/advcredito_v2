@@ -1,5 +1,0 @@
-{
-  "/auth/sign-in/page": "app/auth/sign-in/page.js",
-  "/manifest.webmanifest/route": "app/manifest.webmanifest/route.js",
-  "/auth/sign-up/page": "app/auth/sign-up/page.js"
-}
