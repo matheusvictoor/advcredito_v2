@@ -145,12 +145,12 @@ export function OnboardingWizard({
 
     const result = await completeOnboarding(values);
     if (!result?.serverError && !result?.validationErrors) {
-      toast.success('Completed and ready to go!');
+      toast.success('Concluído e pronto para uso!');
       router.push(
         result?.data?.redirect ?? routes.dashboard.organizations.Index
       );
     } else {
-      toast.error("Couldn't complete request");
+      toast.error("Não foi possível concluir a solicitação");
     }
   };
   const handleNext = async (): Promise<void> => {
@@ -176,7 +176,7 @@ export function OnboardingWizard({
       >
         <div className="w-48 space-y-4">
           <p className="text-sm text-muted-foreground">
-            Step {currentStepIndex + 1} of {activeSteps.length}
+            Etapa {currentStepIndex + 1} de {activeSteps.length}
           </p>
           <StepIndicator
             steps={activeSteps}

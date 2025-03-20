@@ -43,11 +43,10 @@ export function OnboardingThemeStep({
       {...other}
     >
       <h1 className="text-xl font-semibold leading-none tracking-tight lg:text-2xl">
-        Choose your theme
+        Escolha o seu tema
       </h1>
       <p className="text-sm text-muted-foreground lg:text-base">
-        Select the theme for the application. You’ll be able to change this
-        later.
+        Selecione o tema para o aplicativo. Você poderá mudar isso mais tarde.
       </p>
       <FormField
         control={methods.control}

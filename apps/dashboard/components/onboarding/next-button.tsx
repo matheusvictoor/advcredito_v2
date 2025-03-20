@@ -18,7 +18,7 @@ export function NextButton({
         className="mt-4"
         {...rest}
       >
-        {isLastStep ? 'Finish' : 'Next step →'}
+        {isLastStep ? 'Terminar' : 'Próximo passo →'}
       </Button>
     </div>
   );

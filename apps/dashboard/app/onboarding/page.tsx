@@ -44,7 +44,7 @@ export default async function OnboardingFullPage(): Promise<React.JSX.Element> {
         className="absolute left-4 top-4"
       >
         <ChevronLeftIcon className="mr-2 size-4 shrink-0" />
-        Sign out
+        Sair
       </SignOutButton>
       <OnboardingWizard
         activeSteps={[

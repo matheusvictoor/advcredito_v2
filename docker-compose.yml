@@ -6,7 +6,7 @@ services:
     container_name: advcredito_app
     ports:
       - "3000:3000"
-      - "5555:5555"
+      - "3004:3004"
     environment:
       - NODE_ENV=development
     volumes:
@@ -18,9 +18,9 @@ services:
     image: postgres:17
     container_name: advcredito_db
     environment:
-      - POSTGRES_USER: advuser
-      - POSTGRES_PASSWORD: advpassword
-      - POSTGRES_DB: advdb
+      - POSTGRES_USER=advuser
+      - POSTGRES_PASSWORD=advpassword
+      - POSTGRES_DB=advdb
     ports:
       - "5432:5432"
     volumes:
@@ -28,3 +28,4 @@ services:
 
 volumes:
   pgdata:
+

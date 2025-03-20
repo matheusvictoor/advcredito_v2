@@ -82,11 +82,11 @@ export function OnboardingProfileStep({
       {...other}
     >
       <h1 className="text-xl font-semibold leading-none tracking-tight lg:text-2xl">
-        Set up your profile
+        Configure seu perfil
       </h1>
       <p className="text-sm text-muted-foreground lg:text-base">
-        Check if the profile information is correct. You'll be able to change
-        this later in the account settings page.
+        Verifique se as informações do perfil estão corretas. Você poderá alterar isso 
+        mais tarde na página de configurações da conta.
       </p>
       <div className="mt-4 flex items-center justify-center pb-6">
         <div className="relative">
@@ -118,7 +118,7 @@ export function OnboardingProfileStep({
                   <TrashIcon className="size-4 shrink-0" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent side="right">Remove image</TooltipContent>
+              <TooltipContent side="right">Remover imagem</TooltipContent>
             </Tooltip>
           )}
         </div>
@@ -129,7 +129,7 @@ export function OnboardingProfileStep({
           name="profileStep.name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel required>Name</FormLabel>
+              <FormLabel required>Nome</FormLabel>
               <FormControl>
                 <Input
                   type="text"
@@ -149,7 +149,7 @@ export function OnboardingProfileStep({
           name="profileStep.phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Phone</FormLabel>
+              <FormLabel>Telefone</FormLabel>
               <FormControl>
                 <Input
                   type="tel"

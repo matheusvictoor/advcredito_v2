@@ -3,6 +3,8 @@
 # Ignorar a pasta node_modules em todos os diretórios
 **/node_modules/
 
+*.env
+
 # Ignorar arquivos de log
 *.log
 

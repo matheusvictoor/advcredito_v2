@@ -53,9 +53,9 @@ export function VerifyEmailCard({
     setIsResendingEmailVerification(true);
     const result = await resendEmailConfirmation({ email });
     if (!result?.serverError && !result?.validationErrors) {
-      toast.success('Email verification resent');
+      toast.success('Verificação de e-mail reenviado');
     } else {
-      toast.error("Couldn't resend verification");
+      toast.error("Não foi possível reenviar a verificação");
     }
     setIsResendingEmailVerification(false);
   };
@@ -74,7 +74,7 @@ export function VerifyEmailCard({
     }
     const result = await verifyEmailWithOtp(values);
     if (result?.serverError || result?.validationErrors) {
-      toast.error("Couldn't verify email");
+      toast.error("Não foi possível verificar o e-mail");
     }
   };
   return (
@@ -88,11 +88,10 @@ export function VerifyEmailCard({
       >
         <CardHeader>
           <CardTitle className="text-base lg:text-lg">
-            Please check your email
+            Por favor, verifique seu email
           </CardTitle>
           <CardDescription>
-            Your registration has been successful. We have sent you an email
-            with a verification link.
+            Seu registro foi bem sucedido. Enviamos um e-mail com um link de verificação.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -101,8 +100,7 @@ export function VerifyEmailCard({
             onSubmit={methods.handleSubmit(onSubmit)}
           >
             <p className="text-sm text-muted-foreground">
-              Alternatively you can use the one-time password in the email for
-              verification.
+              Alternativamente, você pode usar a senha única no e-mail para verificação.
             </p>
             <FormField
               control={methods.control}
@@ -138,12 +136,12 @@ export function VerifyEmailCard({
               disabled={!canSubmit}
               loading={methods.formState.isSubmitting}
             >
-              Verify
+              Verificar
             </Button>
           </form>
         </CardContent>
         <CardFooter className="flex justify-center gap-1 text-sm text-muted-foreground">
-          Didn't receive an email?
+          Não recebeu um e-mail?
           <Button
             type="button"
             variant="link"
@@ -153,7 +151,7 @@ export function VerifyEmailCard({
             }
             onClick={handleResendEmailVerification}
           >
-            Resend
+            Reenviar
           </Button>
         </CardFooter>
       </Card>
