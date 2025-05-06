@@ -1,0 +1,47 @@
+# Ignorar a pasta .next (build do Next.js)
+.next/
+# Ignorar a pasta node_modules em todos os diretórios
+**/node_modules/
+
+# misc
+.DS_Store
+*.pem
+**/.env
+
+# Ignorar arquivos de log
+*.log
+
+# vercel
+.vercel
+
+# Ignorar arquivos temporários do editor
+.vscode/
+.idea/
+*.swp
+
+# Ignorar arquivos de cache do npm/pnpm
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignorar dependências instaladas localmente em cada pacote
+.pnp/
+.pnpm-debug.log
+
+# Ignorar build e arquivos temporários
+/dist/
+/build/
+/out/
+
+# Ignorar arquivos do Docker
+docker-compose.override.yml
+Dockerfile
+*.log
+
+# Ignorar arquivos de configuração específicos do editor
+*.sublime-project
+*.sublime-workspace
+
+
+packages/database/.env
+pgdata/

@@ -1,0 +1,6 @@
+---
+description: Interaction with the database.
+globs: **/*.{js,jsx,ts,tsx}
+---
+- Interact with the database using Prisma ORM client; use `@workspace/database/client` and `@workspace/database`.
+- Leverage Prisma's generated types

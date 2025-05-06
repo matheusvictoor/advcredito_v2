@@ -1,0 +1,71 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
+  "globalEnv": [
+    "AUTH_SECRET",
+    "AUTH_GOOGLE_CLIENT_ID",
+    "AUTH_GOOGLE_CLIENT_SECRET",
+    "AUTH_MICROSOFT_ENTRA_ID_CLIENT_ID",
+    "AUTH_MICROSOFT_ENTRA_ID_CLIENT_SECRET",
+    "NEXT_PUBLIC_BILLING_STRIPE_PUBLISHABLE_KEY",
+    "BILLING_STRIPE_SECRET_KEY",
+    "BILLING_STRIPE_WEBHOOK_SECRET",
+    "BILLING_PRO_PRODUCT_ID",
+    "BILLING_PRO_PRODUCT_PRICE_ID",
+    "BILLING_UNIT",
+    "DATABASE_URL",
+    "EMAIL_FROM",
+    "EMAIL_FEEDBACK_INBOX",
+    "EMAIL_MAILER",
+    "EMAIL_NODEMAILER_URL",
+    "EMAIL_RESEND_API_KEY",
+    "NEXT_PUBLIC_DASHBOARD_URL",
+    "NEXT_PUBLIC_MARKETING_URL"
+  ],
+  "tasks": {
+    "dev": {
+      "dependsOn": ["^generate"],
+      "cache": false,
+      "persistent": true
+    },
+    "build": {
+      "dependsOn": ["^generate"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": [".next/**", "!.next/cache/**"]
+    },
+    "start": {
+      "cache": false,
+      "persistent": true
+    },
+    "clean": {
+      "cache": false
+    },
+    "//#clean": {
+      "cache": false
+    },
+    "check-types": {
+      "dependsOn": ["^check-types"]
+    },
+    "format": {
+      "dependsOn": ["^format"]
+    },
+    "format:fix": {
+      "dependsOn": ["^format:fix"]
+    },
+    "lint": {
+      "dependsOn": ["^lint"]
+    },
+    "typecheck": {
+      "dependsOn": ["^typecheck"]
+    },
+    "analyze": {
+      "dependsOn": ["^analyze"]
+    },
+    "license#dev": {
+      "outputLogs": "errors-only"
+    },
+    "generate": {
+      "cache": false
+    }
+  }
+}
