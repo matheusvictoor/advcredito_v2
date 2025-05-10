@@ -1,9 +1,9 @@
 import { z } from "zod";
 
-import { ContactRecord } from "@workspace/database";
+import { TenantRecord } from "@workspace/database";
 
-export const addContactSchema = z.object({
-  record: z.nativeEnum(ContactRecord, {
+export const addTenantSchema = z.object({
+  record: z.nativeEnum(TenantRecord, {
     required_error: "Record is required",
     invalid_type_error: "Record must be a string",
   }),
@@ -13,7 +13,7 @@ export const addContactSchema = z.object({
       invalid_type_error: "Name must be a string.",
     })
     .trim()
-    .min(1, "Name is required.")
+    .min(1, "Nome é obrigatório.")
     .max(64, "Maximum 64 characters allowed."),
   email: z
     .string({
@@ -32,6 +32,7 @@ export const addContactSchema = z.object({
     .max(16, "Maximum 16 characters allowed.")
     .optional()
     .or(z.literal("")),
+  
 });
 
-export type AddContactSchema = z.infer<typeof addContactSchema>;
+export type AddTenantSchema = z.infer<typeof addTenantSchema>;

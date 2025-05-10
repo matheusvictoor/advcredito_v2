@@ -8,6 +8,7 @@ import {
   InvitationStatus,
   Role,
   WebhookTrigger,
+  TenantRecord,
 } from "@workspace/database";
 
 export const contactStageLabel: Record<ContactStage, string> = {
@@ -26,9 +27,9 @@ export const tenantStatusLabel: Record<InvitationStatus, string> = {
   [InvitationStatus.REVOKED]: "Revogado",
 };
 
-export const contactRecordLabel: Record<ContactRecord, string> = {
-  [ContactRecord.PERSON]: "Person",
-  [ContactRecord.COMPANY]: "Company",
+export const tenantRecordLabel: Record<ContactRecord, string> = {
+  [TenantRecord.PERSON]: "Pessoa",
+  [TenantRecord.COMPANY]: "Empresa",
 };
 
 export const roleLabels: Record<Role, string> = {
@@ -77,4 +78,11 @@ export const authErrorLabels: Record<AuthErrorCode, string> = {
   [AuthErrorCode.InternalServerError]:
     "Algo deu errado. Por favor, tente novamente mais tarde.",
   [AuthErrorCode.UnknownError]: "Erro desconhecido.",
+};
+
+// ----------------------- REMOVE THIS -----------------------
+
+export const contactRecordLabel: Record<ContactRecord, string> = {
+  [ContactRecord.PERSON]: "Person",
+  [ContactRecord.COMPANY]: "Company",
 };

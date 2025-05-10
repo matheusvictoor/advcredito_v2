@@ -39,10 +39,10 @@ export async function getTenants(input: GetTenantsSchema): Promise<{
       : undefined;
   const searchVector = searchCriteria
     ? [
-        { name: searchCriteria },
-        { email: searchCriteria },
-        { phone: searchCriteria },
-      ]
+      { name: searchCriteria },
+      { email: searchCriteria },
+      { phone: searchCriteria },
+    ]
     : undefined;
 
   return cache(
@@ -53,6 +53,7 @@ export async function getTenants(input: GetTenantsSchema): Promise<{
             skip: parsedInput.pageIndex * parsedInput.pageSize,
             take: parsedInput.pageSize,
             where: {
+              organizationId: ctx.organization.id,
               record: mapRecords(parsedInput.records),
               archived: parsedInput.archived,
               OR: searchVector,
@@ -78,12 +79,12 @@ export async function getTenants(input: GetTenantsSchema): Promise<{
               archived: true,
               solde: true,
               createdAt: true,
-              contract: {
+              contracts: {
                 where: {
                   status: "ACTIVE",
                 },
                 select: {
-                  property: {
+                  propertys: {
                     select: {
                       type: true,
                       number: true,
@@ -91,7 +92,7 @@ export async function getTenants(input: GetTenantsSchema): Promise<{
                   },
                   _count: {
                     select: {
-                      financialTransation: {
+                      payments: {
                         where: {
                           status: "PENDING",
                         },
@@ -102,7 +103,7 @@ export async function getTenants(input: GetTenantsSchema): Promise<{
               },
               _count: {
                 select: {
-                  contract: {
+                  contracts: {
                     where: {
                       status: "ACTIVE",
                     },
@@ -116,14 +117,20 @@ export async function getTenants(input: GetTenantsSchema): Promise<{
           }),
           prisma.tenant.count({
             where: {
+              organizationId: ctx.organization.id,
               record: mapRecords(parsedInput.records),
               archived: parsedInput.archived,
               OR: searchVector,
             },
           }),
-          prisma.tenant.count(),
           prisma.tenant.count({
             where: {
+              organizationId: ctx.organization.id,
+            }
+          }),
+          prisma.tenant.count({
+            where: {
+              organizationId: ctx.organization.id,
               archived: false,
             },
           }),
@@ -136,19 +143,19 @@ export async function getTenants(input: GetTenantsSchema): Promise<{
         cpf: tenant.person?.cpf ? tenant.person.cpf : undefined,
         cnpj: tenant.company?.cnpj ? tenant.company.cnpj : undefined,
         image: tenant.image ? tenant.image : undefined,
-        email: tenant.email,
-        phone: tenant.phone,
+        email: tenant.email ? tenant.email : undefined,
+        phone: tenant.phone ? tenant.phone : undefined,
         status: tenant.status,
         archived: tenant.archived,
-        solde: tenant.solde,
+        solde: tenant.solde ? tenant.solde : "0",
         createdAt: tenant.createdAt,
-        propertyType: tenant.contract[0]?.property.type,
-        propertyNumber: tenant.contract[0]?.property.number,
-        pendingInstallmentsCount: tenant.contract.reduce(
-          (acc, contract) => acc + contract._count.financialTransation,
+        propertyType: tenant.contracts[0]?.propertys[0]?.type,
+        propertyNumber: tenant.contracts[0]?.propertys[0]?.number,
+        pendingInstallmentsCount: tenant.contracts.reduce(
+          (acc, contract) => acc + contract._count.payments,
           0,
         ),
-        assetsContractCount: tenant._count.contract,
+        assetsContractCount: tenant._count.contracts,
       }));
 
       return { tenants: mapped, filteredCount, totalCount, assetsCount };

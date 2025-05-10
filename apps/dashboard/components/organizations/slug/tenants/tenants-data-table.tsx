@@ -58,7 +58,7 @@ import {
 } from "@workspace/ui/components/tooltip";
 import { cn } from "@workspace/ui/lib/utils";
 
-import { TenantsBulkActions } from "~/components/organizations/slug/tenants/contacts-bulk-actions";
+import { TenantsBulkActions } from "~/components/organizations/slug/tenants/tenants-bulk-actions";
 import { DeleteTenantModal } from "~/components/organizations/slug/tenants/delete-tenant-modal";
 import { TenantAvatar } from "~/components/organizations/slug/tenants/details/tenant-avatar";
 import { tenantStatusColor } from "~/components/organizations/slug/tenants/tenant-stage-color";
@@ -247,7 +247,7 @@ export function TenantsDataTable({
       ),
       cell: ({ row }) => (
         <span className="whitespace-nowrap text-sm">
-          {mask.phone(row.original.phone)}
+          {mask.phone(row.original.phone || '')}
         </span>
       ),
       enableSorting: true,
@@ -265,7 +265,7 @@ export function TenantsDataTable({
         <div className="flex gap-2">
           <Tooltip>
             <TooltipTrigger asChild>
-              <Link
+              {/* <Link
                 href={`${replaceOrgSlug(routes.dashboard.organizations.slug.Contacts, activeOrganization.slug)}/${row.original.id}`}
                 // href={`/list/tenants/${tenant.tenantId}/solde`}
                 className={`p-0 h-auto text-xs hover:underline ${
@@ -277,7 +277,7 @@ export function TenantsDataTable({
                 }`}
               >
                 {formatCurrency(row.original.solde)}
-              </Link>
+              </Link> */}
             </TooltipTrigger>
             <TooltipContent>Saldo do inquilino</TooltipContent>
           </Tooltip>

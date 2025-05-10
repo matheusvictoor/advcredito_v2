@@ -17,9 +17,11 @@ enum ActionType {
 }
 
 enum ActorType {
-  SYSTEM @map("system")
-  MEMBER @map("member")
-  API    @map("api")
+  API          @map("api")
+  COLLABORATOR @map("collaborator")
+  OWNER        @map("owner")
+  MEMBER       @map("member") // talvez seja necessario remover posteriormente
+  SYSTEM       @map("system")
 }
 
 enum ContactRecord {
@@ -437,6 +439,7 @@ model Organization {
   invitations      Invitation[]
   memberships      Membership[]
   webhooks         Webhook[]
+  tenants          Tenant[]
 
   @@index([stripeCustomerId], map: "IX_Organization_stripeCustomerId")
 }
@@ -588,7 +591,7 @@ model Contract {
   updatedAt      DateTime       @updatedAt
   tenant         Tenant         @relation(fields: [tenantId], references: [id])
   user           Actor          @relation(fields: [userId], references: [id])
-  propertys       Property[]
+  propertys      Property[]
   subscription   Subscription   @relation(fields: [subscriptionId], references: [id])
   payments       Payment[]
 
@@ -612,10 +615,10 @@ model Payment {
   @@index([tenantId], map: "IX_Payment_tenantId")
 }
 
-model Owner { //---ok----
+model Owner {
   id           String        @id(map: "PK_Owner") @default(uuid()) @db.Uuid
   slug         String        @unique @db.VarChar(21)
-  image         String?       @db.VarChar(2048)
+  image        String?       @db.VarChar(2048)
   record       OwnerRecord   @default(PERSON)
   name         String        @db.VarChar(64)
   email        String        @unique @db.VarChar(64)
@@ -624,7 +627,7 @@ model Owner { //---ok----
   street       String?       @db.VarChar(64)
   number       String?       @db.VarChar(10)
   neighborhood String?       @db.VarChar(64)
-  zipCode      String?       @db.VarChar(10)
+  zipcode      String?       @db.VarChar(10)
   city         String?       @db.VarChar(64)
   complement   String?       @db.VarChar(255)
   state        String?       @db.VarChar(64)
@@ -636,7 +639,7 @@ model Owner { //---ok----
   propertys    Property[]
 }
 
-model OwnerImage { //---ok----
+model OwnerImage {
   ownerId     String  @id(map: "PK_OwnerImage") @default(uuid()) @db.Uuid
   data        Bytes?
   contentType String? @db.VarChar(255)
@@ -644,7 +647,7 @@ model OwnerImage { //---ok----
   owner       Owner   @relation(fields: [ownerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
-model OwnerPerson { //---ok----
+model OwnerPerson {
   ownerId   String   @id(map: "PK_OwnerPerson") @default(uuid()) @db.Uuid
   cpf       String   @unique @db.VarChar(11)
   dateBirth DateTime
@@ -653,7 +656,7 @@ model OwnerPerson { //---ok----
   @@index([cpf], map: "IX_OwnerPerson_cpf")
 }
 
-model OwnerCompany { //---ok----
+model OwnerCompany {
   ownerId String @id(map: "PK_OwnerCompany") @default(uuid()) @db.Uuid
   cnpj    String @unique @db.VarChar(14)
   owner   Owner  @relation(fields: [ownerId], references: [id], onDelete: Cascade)
@@ -668,7 +671,7 @@ model Property {
   number         String           @db.VarChar(10)
   neighborhood   String           @db.VarChar(64)
   complement     String?          @db.VarChar(255)
-  zipCode        String           @db.VarChar(10)
+  zipcode        String           @db.VarChar(10)
   city           String           @db.VarChar(64)
   state          String           @db.VarChar(64)
   floor          Int?             @db.Integer
@@ -725,35 +728,37 @@ model Subscription {
   contract    Contract?
 }
 
-model Tenant { //---ok----
-  id            String           @id(map: "PK_Tenant") @default(uuid()) @db.Uuid
-  ownerId       String           @db.Uuid
-  record        TenantRecord     @default(PERSON)
-  name          String           @db.VarChar(64)
-  image         String?          @db.VarChar(2048)
-  email         String           @unique @db.VarChar(64)
-  phone         String           @unique @db.VarChar(16)
-  status        InvitationStatus @default(PENDING)
-  archived      Boolean          @default(false)
-  solde         Float            @default(0)
-  street        String?          @db.VarChar(64)
-  number        String?          @db.VarChar(10)
-  neighborhood  String?          @db.VarChar(64)
-  zipCode       String?          @db.VarChar(10)
-  city          String?          @db.VarChar(64)
-  complement    String?          @db.VarChar(255)
-  state         String?          @db.VarChar(64)
-  createdAt     DateTime         @default(now())
-  updatedAt     DateTime         @updatedAt
-  person        TenantPerson?
-  company       TenantCompany?
-  tenantImage   TenantImage?
-  contracts     Contract[]
-  payments      Payment[]
-  subscriptions Subscription[]
+model Tenant {
+  id             String           @id(map: "PK_Tenant") @default(uuid()) @db.Uuid
+  organizationId String?          @db.Uuid
+  record         TenantRecord     @default(PERSON)
+  name           String           @db.VarChar(64)
+  image          String?          @db.VarChar(2048)
+  email          String?          @unique @db.VarChar(64)
+  phone          String?          @unique @db.VarChar(16)
+  status         InvitationStatus @default(PENDING)
+  archived       Boolean          @default(false)
+  solde          String?          @db.VarChar(16)
+  street         String?          @db.VarChar(64)
+  number         String?          @db.VarChar(10)
+  neighborhood   String?          @db.VarChar(64)
+  zipcode        String?          @db.VarChar(10)
+  city           String?          @db.VarChar(64)
+  complement     String?          @db.VarChar(255)
+  state          String?          @db.VarChar(64)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  organization   Organization?    @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  person         TenantPerson?
+  company        TenantCompany?
+  tenantImage    TenantImage?
+  contracts      Contract[]
+  payments       Payment[]
+  subscriptions  Subscription[]
+  activities     TenantActivity[]
 }
 
-model TenantImage { //---ok----
+model TenantImage {
   tenantId    String  @id(map: "PK_TenantImage") @default(uuid()) @db.Uuid
   data        Bytes?
   contentType String? @db.VarChar(255)
@@ -761,15 +766,29 @@ model TenantImage { //---ok----
   tenant      Tenant  @relation(fields: [tenantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
-model TenantPerson { //---ok----
+model TenantPerson {
   tenantId  String   @id(map: "PK_TenantPerson") @default(uuid()) @db.Uuid
   cpf       String   @unique @db.VarChar(11)
   birthDate DateTime
   tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
-model TenantCompany { //---ok----
+model TenantCompany {
   tenantId String @id(map: "PK_TenantCompany") @default(uuid()) @db.Uuid
   cnpj     String @unique @db.VarChar(14)
   tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model TenantActivity {
+  id         String     @id(map: "PK_TenantActivity") @default(uuid()) @db.Uuid
+  tenantId   String     @db.Uuid
+  actionType ActionType
+  actorId    String     @db.VarChar(255)
+  actorType  ActorType
+  metadata   Json?
+  occurredAt DateTime   @default(now())
+  tenant     Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([tenantId], map: "IX_TenantActivity_tenantId")
+  @@index([occurredAt], map: "IX_TenantActivity_occurredAt")
 }

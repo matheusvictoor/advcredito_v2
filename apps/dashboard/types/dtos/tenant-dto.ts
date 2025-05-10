@@ -11,11 +11,11 @@ export type TenantDto = {
   cpf?: string;
   cnpj?: string;
   image?: string;
-  email: string;
-  phone: string;
+  email?: string;
+  phone?: string;
   status: InvitationStatus;
   archived: boolean;
-  solde: number;
+  solde: string;
   createdAt: Date;
   propertyType: PropertyType;
   propertyNumber: string;

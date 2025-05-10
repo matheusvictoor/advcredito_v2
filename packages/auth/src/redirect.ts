@@ -30,7 +30,6 @@ export async function getRedirectAfterSignIn(): Promise<string> {
     : slug
       ? replaceOrgSlug(routes.dashboard.organizations.slug.Home, slug)
       : routes.dashboard.organizations.Index;
-
   return redirectTo;
 }
 
