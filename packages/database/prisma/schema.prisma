@@ -254,7 +254,7 @@ model Contact {
   notes          ContactNote[]
   pageVisits     ContactPageVisit[]
   tags           ContactTag[]
-  favorites      Favorite[]
+  // favorites      Favorite[]
   tasks          ContactTask[]
 
   @@index([organizationId], map: "IX_Contact_organizationId")
@@ -345,15 +345,15 @@ model ContactTask {
 }
 
 model Favorite {
-  id        String  @id(map: "PK_Favorite") @default(uuid()) @db.Uuid
-  userId    String  @db.Uuid
-  contactId String  @db.Uuid
-  order     Int     @default(0)
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  contact   Contact @relation(fields: [contactId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id       String @id(map: "PK_Favorite") @default(uuid()) @db.Uuid
+  userId   String @db.Uuid
+  tenantId String @db.Uuid
+  order    Int    @default(0)
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@index([userId], map: "IX_Favorite_userId")
-  @@index([contactId], map: "IX_Favorite_contactId")
+  @@index([tenantId], map: "IX_Favorite_tenantId")
 }
 
 model Feedback {
@@ -558,21 +558,22 @@ model WorkTimeSlot {
   @@index([workHoursId], map: "IX_WorkTimeSlot_workHoursId")
 }
 
-// ---- Quando for renomear Actor por User, lembrar de relacionar User com UserImage ---- // 
+// ---- Quando for renomear Actor por User, lembrar de relacionar User com UserImage ---- //
 model Actor {
-  id            String     @id(map: "PK_Actor") @default(uuid()) @db.Uuid
-  image         String?    @db.VarChar(2048)
-  name          String     @db.VarChar(64)
-  cpf           String     @unique @db.VarChar(11)
-  phone         String?    @db.VarChar(16)
-  email         String     @unique @db.VarChar(64)
+  id            String            @id(map: "PK_Actor") @default(uuid()) @db.Uuid
+  image         String?           @db.VarChar(2048)
+  name          String            @db.VarChar(64)
+  cpf           String            @unique @db.VarChar(11)
+  phone         String?           @db.VarChar(16)
+  email         String            @unique @db.VarChar(64)
   emailVerified DateTime?
-  password      String     @db.VarChar(64)
+  password      String            @db.VarChar(64)
   lastLogin     DateTime?
-  role          Role       @default(MEMBER)
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+  role          Role              @default(MEMBER)
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
   contracts     Contract[]
+  pageVisits    TenantPageVisit[]
 }
 
 model Contract {
@@ -729,26 +730,26 @@ model Subscription {
 }
 
 model Tenant {
-  id             String           @id(map: "PK_Tenant") @default(uuid()) @db.Uuid
-  organizationId String?          @db.Uuid
-  record         TenantRecord     @default(PERSON)
-  name           String           @db.VarChar(64)
-  image          String?          @db.VarChar(2048)
-  email          String?          @unique @db.VarChar(64)
-  phone          String?          @unique @db.VarChar(16)
-  status         InvitationStatus @default(PENDING)
-  archived       Boolean          @default(false)
-  solde          String?          @db.VarChar(16)
-  street         String?          @db.VarChar(64)
-  number         String?          @db.VarChar(10)
-  neighborhood   String?          @db.VarChar(64)
-  zipcode        String?          @db.VarChar(10)
-  city           String?          @db.VarChar(64)
-  complement     String?          @db.VarChar(255)
-  state          String?          @db.VarChar(64)
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  organization   Organization?    @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id             String            @id(map: "PK_Tenant") @default(uuid()) @db.Uuid
+  organizationId String?           @db.Uuid
+  record         TenantRecord      @default(PERSON)
+  name           String            @db.VarChar(64)
+  image          String?           @db.VarChar(2048)
+  email          String?           @unique @db.VarChar(64)
+  phone          String?           @unique @db.VarChar(16)
+  status         InvitationStatus  @default(PENDING)
+  archived       Boolean           @default(false)
+  solde          Decimal           @default("0.00") @db.Decimal(10, 2)
+  street         String?           @db.VarChar(64)
+  number         String?           @db.VarChar(10)
+  neighborhood   String?           @db.VarChar(64)
+  zipcode        String?           @db.VarChar(10)
+  city           String?           @db.VarChar(64)
+  complement     String?           @db.VarChar(255)
+  state          String?           @db.VarChar(64)
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  organization   Organization?     @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   person         TenantPerson?
   company        TenantCompany?
   tenantImage    TenantImage?
@@ -756,6 +757,8 @@ model Tenant {
   payments       Payment[]
   subscriptions  Subscription[]
   activities     TenantActivity[]
+  pageVisits     TenantPageVisit[]
+  favorites      Favorite[]
 }
 
 model TenantImage {
@@ -791,4 +794,16 @@ model TenantActivity {
 
   @@index([tenantId], map: "IX_TenantActivity_tenantId")
   @@index([occurredAt], map: "IX_TenantActivity_occurredAt")
+}
+
+model TenantPageVisit {
+  id        String   @id(map: "PK_TenantPageVisit") @default(uuid()) @db.Uuid
+  tenantId  String   @db.Uuid
+  userId    String?  @db.Uuid
+  timestamp DateTime @default(now())
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user      Actor?   @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+
+  @@index([tenantId], map: "IX_TenantPageVisit_tenantId")
+  @@index([userId], map: "IX_TenantPageVisit_userId")
 }
