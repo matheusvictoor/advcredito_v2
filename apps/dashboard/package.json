@@ -35,6 +35,7 @@
     "@workspace/routes": "workspace:*",
     "@workspace/ui": "workspace:*",
     "date-fns": "3.6.0",
+    "decimal.js": "^10.5.0",
     "exceljs": "4.4.0",
     "file-saver": "2.0.5",
     "lucide-react": "0.468.0",
