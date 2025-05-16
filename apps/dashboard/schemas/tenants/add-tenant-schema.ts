@@ -14,14 +14,14 @@ export const addTenantSchema = z.object({
     })
     .trim()
     .min(1, "Nome é obrigatório.")
-    .max(64, "Maximum 64 characters allowed."),
+    .max(64, "Nome deve ter no máximo 64 caracteres."),
   email: z
     .string({
       invalid_type_error: "Email must be a string.",
     })
     .trim()
-    .max(255, "Maximum 255 characters allowed.")
-    .email("Enter a valid email address.")
+    .max(255, "E-mail deve ter no máximo 255 caracteres.")
+    .email("Informe um e-mail válido.")
     .optional()
     .or(z.literal("")),
   phone: z
@@ -29,7 +29,7 @@ export const addTenantSchema = z.object({
       invalid_type_error: "Phone must be a string.",
     })
     .trim()
-    .max(16, "Maximum 16 characters allowed.")
+    .max(16, "Telefone deve ter no máximo 16 caracteres.")
     .optional()
     .or(z.literal("")),
   

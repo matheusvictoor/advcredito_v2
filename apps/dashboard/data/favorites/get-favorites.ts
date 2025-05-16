@@ -21,14 +21,14 @@ export async function getFavorites(): Promise<FavoriteDto[]> {
       const favorites = await prisma.favorite.findMany({
         where: {
           userId: ctx.session.user.id,
-          contact: {
+          tenant: {
             organizationId: ctx.organization.id,
           },
         },
         select: {
           id: true,
           order: true,
-          contact: {
+          tenant: {
             select: {
               id: true,
               name: true,
@@ -45,10 +45,10 @@ export async function getFavorites(): Promise<FavoriteDto[]> {
       const mapped: FavoriteDto[] = favorites.map((favorite) => ({
         id: favorite.id,
         order: favorite.order,
-        contactId: favorite.contact.id,
-        name: favorite.contact.name,
-        record: favorite.contact.record,
-        image: favorite.contact.image ? favorite.contact.image : undefined,
+        tenantId: favorite.tenant.id,
+        name: favorite.tenant.name,
+        record: favorite.tenant.record,
+        image: favorite.tenant.image ? favorite.tenant.image : undefined,
       }));
 
       return mapped;

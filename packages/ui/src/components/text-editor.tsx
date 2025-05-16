@@ -77,10 +77,10 @@ type BlockType = {
 
 const blockTypeToBlockName: BlockType = {
   paragraph: "Normal",
-  h2: "Small Heading",
-  h1: "Large Heading",
-  bullet: "Bulleted List",
-  number: "Numbered List",
+  h2: "Título Pequeno",
+  h1: "Título Grande",
+  bullet: "Lista com Marcador",
+  number: "Lista Numerada",
 };
 
 function ToolbarPlugin(): React.JSX.Element {

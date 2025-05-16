@@ -2,7 +2,7 @@ import { type ActionType, type Prisma } from "@workspace/database";
 
 export type ActivityTimelineEventDto = {
   id: string;
-  contactId: string;
+  tenantId: string;
   type: "activity";
   actionType: ActionType;
   metadata: Prisma.JsonValue;
@@ -16,7 +16,7 @@ export type ActivityTimelineEventDto = {
 
 export type CommentTimelineEventDto = {
   id: string;
-  contactId: string;
+  tenantId: string;
   type: "comment";
   text: string;
   edited: boolean;

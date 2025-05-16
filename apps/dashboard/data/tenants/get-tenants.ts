@@ -147,7 +147,7 @@ export async function getTenants(input: GetTenantsSchema): Promise<{
         phone: tenant.phone ? tenant.phone : undefined,
         status: tenant.status,
         archived: tenant.archived,
-        solde: tenant.solde ? tenant.solde : "0",
+        solde: tenant.solde.toString(),
         createdAt: tenant.createdAt,
         propertyType: tenant.contracts[0]?.propertys[0]?.type,
         propertyNumber: tenant.contracts[0]?.propertys[0]?.number,

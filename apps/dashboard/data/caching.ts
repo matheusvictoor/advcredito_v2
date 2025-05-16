@@ -1,6 +1,6 @@
 export enum UserCacheKey {
   Organizations,
-  ContactIsInFavorites,
+  TenantIsInFavorites,
   Profile,
   PersonalDetails,
   Preferences,
@@ -17,9 +17,9 @@ export enum OrganizationCacheKey {
   ContactTags,
   Contact,
   ContactPageVisits,
-  ContactTimelineEvents,
-  ContactNotes,
-  ContactTasks,
+  ContactTimelineEvents, //remover
+  ContactNotes, //remover
+  ContactTasks, //remover
   Favorites,
   OrganizationDetails,
   BusinessHours,
@@ -28,7 +28,12 @@ export enum OrganizationCacheKey {
   Invitations,
   ApiKeys,
   Webhooks,
+  Tenant,
   Tenants,
+  TenantPageVisits,
+  TenantTimelineEvents,
+  TenantNotes,
+  TenantTasks,
 }
 
 export class Caching {

@@ -17,7 +17,7 @@ export const removeFavorite = authOrganizationActionClient
       prisma.favorite.deleteMany({
         where: {
           userId: ctx.session.user.id,
-          contactId: parsedInput.contactId,
+          tenantId: parsedInput.tenantId,
         },
       }),
       updateFavoritesOrder(ctx.session.user.id),
@@ -33,9 +33,9 @@ export const removeFavorite = authOrganizationActionClient
 
     revalidateTag(
       Caching.createUserTag(
-        UserCacheKey.ContactIsInFavorites,
+        UserCacheKey.TenantIsInFavorites,
         ctx.session.user.id,
-        parsedInput.contactId,
+        parsedInput.tenantId,
       ),
     );
   });

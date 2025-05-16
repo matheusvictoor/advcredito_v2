@@ -1,16 +1,16 @@
 import * as React from "react";
 
-import { ContactNotes } from "~/components/organizations/slug/contacts/details/notes/contact-notes";
-import { getContactNotes } from "~/data/contacts/get-contact-notes";
-import type { ContactDto } from "~/types/dtos/contact-dto";
+import { TenantNotes } from "~/components/organizations/slug/tenants/details/notes/tenant-notes";
+import { getTenantNotes } from "~/data/tenants/get-tenant-notes";
+import type { TenantDto } from "~/types/dtos/tenant-dto";
 
-export type ContactNotesTabProps = {
-  contact: ContactDto;
+export type TenantNotesTabProps = {
+  tenant: TenantDto;
 };
 
-export async function ContactNotesTab({
-  contact,
-}: ContactNotesTabProps): Promise<React.JSX.Element> {
-  const notes = await getContactNotes({ contactId: contact.id });
-  return <ContactNotes contact={contact} notes={notes} />;
+export async function TenantNotesTab({
+  tenant,
+}: TenantNotesTabProps): Promise<React.JSX.Element> {
+  const notes = await getTenantNotes({ tenantId: tenant.id });
+  return <TenantNotes tenant={tenant} notes={notes} />;
 }

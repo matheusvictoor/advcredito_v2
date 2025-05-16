@@ -1,14 +1,14 @@
 import { z } from "zod";
 
 export const removeFavoriteSchema = z.object({
-  contactId: z
+  tenantId: z
     .string({
-      required_error: "Contact id is required.",
-      invalid_type_error: "Contact id must be a string.",
+      required_error: "Tenant id is required.",
+      invalid_type_error: "Tenant id must be a string.",
     })
     .trim()
-    .uuid("Contact id is invalid.")
-    .min(1, "Contact id is required.")
+    .uuid("Tenant id is invalid.")
+    .min(1, "Tenant id is required.")
     .max(36, "Maximum 36 characters allowed."),
 });
 

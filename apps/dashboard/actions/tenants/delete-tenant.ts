@@ -15,7 +15,7 @@ export const deleteTenant = authOrganizationActionClient
   .action(async ({ parsedInput, ctx }) => {
     const count = await prisma.tenant.count({
       where: {
-        // organizationId: ctx.organization.id,
+        organizationId: ctx.organization.id,
         id: parsedInput.id,
       },
     });

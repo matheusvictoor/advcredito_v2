@@ -28,8 +28,8 @@ export const tenantStatusLabel: Record<InvitationStatus, string> = {
 };
 
 export const tenantRecordLabel: Record<ContactRecord, string> = {
-  [TenantRecord.PERSON]: "Pessoa",
-  [TenantRecord.COMPANY]: "Empresa",
+  [TenantRecord.PERSON]: "Pessoa Física",
+  [TenantRecord.COMPANY]: "Pessoa Jurídica",
 };
 
 export const roleLabels: Record<Role, string> = {

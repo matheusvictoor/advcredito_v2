@@ -1,10 +1,10 @@
-import { type ContactRecord } from "@workspace/database";
+import { type TenantRecord } from "@workspace/database";
 
 export type FavoriteDto = {
   id: string;
   order: number;
-  contactId: string;
+  tenantId: string;
   name: string;
-  record: ContactRecord;
+  record: TenantRecord;
   image?: string;
 };

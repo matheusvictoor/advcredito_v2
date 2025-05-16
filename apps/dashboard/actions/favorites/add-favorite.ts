@@ -16,7 +16,7 @@ export const addFavorite = authOrganizationActionClient
     const count = await prisma.favorite.count({
       where: {
         userId: ctx.session.user.id,
-        contactId: parsedInput.contactId,
+        tenantId: parsedInput.tenantId,
       },
     });
 
@@ -29,13 +29,13 @@ export const addFavorite = authOrganizationActionClient
       prisma.favorite.deleteMany({
         where: {
           userId: ctx.session.user.id,
-          contactId: parsedInput.contactId,
+          tenantId: parsedInput.tenantId,
         },
       }),
       prisma.favorite.create({
         data: {
           userId: ctx.session.user.id,
-          contactId: parsedInput.contactId,
+          tenantId: parsedInput.tenantId,
           order: await prisma.favorite.count({
             where: { userId: ctx.session.user.id },
           }),
@@ -57,9 +57,9 @@ export const addFavorite = authOrganizationActionClient
 
     revalidateTag(
       Caching.createUserTag(
-        UserCacheKey.ContactIsInFavorites,
+        UserCacheKey.TenantIsInFavorites,
         ctx.session.user.id,
-        parsedInput.contactId,
+        parsedInput.tenantId,
       ),
     );
   });

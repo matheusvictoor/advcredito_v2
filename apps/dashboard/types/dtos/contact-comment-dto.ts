@@ -8,3 +8,5 @@ export type ContactCommentDto = {
     image?: string;
   };
 };
+
+// excluir esse arquivo

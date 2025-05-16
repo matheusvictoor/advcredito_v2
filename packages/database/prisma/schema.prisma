@@ -166,6 +166,11 @@ enum TransationType {
   FINE     @map("fine")
 }
 
+enum TenantTaskStatus {
+  OPEN      @map("open")
+  COMPLETED @map("completed")
+}
+
 enum WebhookTrigger {
   CONTACT_CREATED @map("contactCreated")
   CONTACT_UPDATED @map("contactUpdated")
@@ -574,6 +579,8 @@ model Actor {
   updatedAt     DateTime          @updatedAt
   contracts     Contract[]
   pageVisits    TenantPageVisit[]
+  comments      TenantComment[]
+  notes         TenantNote[]
 }
 
 model Contract {
@@ -759,6 +766,9 @@ model Tenant {
   activities     TenantActivity[]
   pageVisits     TenantPageVisit[]
   favorites      Favorite[]
+  comments       TenantComment[]
+  notes          TenantNote[]
+  tasks          TenantTask[]
 }
 
 model TenantImage {
@@ -806,4 +816,46 @@ model TenantPageVisit {
 
   @@index([tenantId], map: "IX_TenantPageVisit_tenantId")
   @@index([userId], map: "IX_TenantPageVisit_userId")
+}
+
+model TenantComment {
+  id        String   @id(map: "PK_TenantComment") @default(uuid()) @db.Uuid
+  tenantId  String   @db.Uuid
+  userId    String   @db.Uuid
+  text      String   @db.VarChar(2000)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user      Actor    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([tenantId], map: "IX_TenantComment_tenantId")
+  @@index([userId], map: "IX_TenantComment_userId")
+}
+
+model TenantNote {
+  id        String   @id(map: "PK_TenantNote") @default(uuid()) @db.Uuid
+  tenantId  String   @db.Uuid
+  userId    String   @db.Uuid
+  text      String?  @db.VarChar(8000)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user      Actor    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([tenantId], map: "IX_TenantNote_tenantId")
+  @@index([userId], map: "IX_TenantNote_userId")
+}
+
+model TenantTask {
+  id          String            @id(map: "PK_TenantTask") @default(uuid()) @db.Uuid
+  tenantId   String            @db.Uuid
+  title       String            @db.VarChar(255)
+  description String?           @db.VarChar(8000)
+  status      TenantTaskStatus @default(OPEN)
+  dueDate     DateTime?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  tenant     Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([tenantId], map: "IX_TenantTask_tenantId")
 }

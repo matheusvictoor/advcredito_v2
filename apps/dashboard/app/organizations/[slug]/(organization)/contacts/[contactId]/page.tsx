@@ -11,7 +11,7 @@ import {
   PagePrimaryBar,
 } from "@workspace/ui/components/page";
 
-import { ContactActions } from "~/components/organizations/slug/contacts/details/contact-actions";
+// import { ContactActions } from "~/components/organizations/slug/contacts/details/contact-actions";
 import { ContactMeta } from "~/components/organizations/slug/contacts/details/contact-meta";
 import { ContactPageVisit } from "~/components/organizations/slug/contacts/details/contact-page-visit";
 import { ContactTabs } from "~/components/organizations/slug/contacts/details/contact-tabs";
@@ -69,7 +69,7 @@ export default async function ContactPage({
             }}
             title={contact.name}
           />
-          <ContactActions contact={contact} />
+          {/* <ContactActions contact={contact} /> */}
         </PagePrimaryBar>
       </PageHeader>
       <PageBody

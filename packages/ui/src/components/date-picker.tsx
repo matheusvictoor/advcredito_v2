@@ -12,10 +12,10 @@ import { Calendar } from "./calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 
 const defaultPresets = [
-  { value: 0, label: "Today" },
-  { value: 1, label: "Tomorrow" },
-  { value: 3, label: "In 3 days" },
-  { value: 7, label: "In a week" },
+  { value: 0, label: "Hoje" },
+  { value: 1, label: "Amanhã" },
+  { value: 3, label: "Em 3 dias" },
+  { value: 7, label: "Em uma semana" },
 ];
 
 export type DatePickerProps = ButtonProps & {
@@ -27,7 +27,7 @@ export type DatePickerProps = ButtonProps & {
 function DatePicker({
   date,
   onDateChange,
-  placeholder = "Pick a date",
+  placeholder = "Escolha uma data",
   presets = defaultPresets,
   className,
   variant,
@@ -46,7 +46,7 @@ function DatePicker({
           {...other}
         >
           <CalendarIcon className="mr-2 size-4 shrink-0" />
-          {date ? format(date, "PPP") : <span>{placeholder}</span>}
+          {date ? format(date, "dd LLLL y", { locale: ptBR }) : <span>{placeholder}</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent
@@ -76,6 +76,7 @@ function DatePicker({
           onSelect={(e) => {
             onDateChange?.(e);
           }}
+          locale={ptBR}
         />
       </PopoverContent>
     </Popover>

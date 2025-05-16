@@ -18,11 +18,10 @@ export default function NotFound(): React.JSX.Element {
     <div className="flex flex-col py-32 items-center justify-center text-center">
       <span className="text-[10rem] font-semibold leading-none">404</span>
       <h2 className="font-heading my-2 text-2xl font-bold">
-        Something&apos;s missing
+        Página não encontrada
       </h2>
       <p>
-        Sorry, the page you are looking for doesn&apos;t exist or has been
-        moved.
+        A página que você está procurando não existe ou foi movida.
       </p>
       <div className="mt-8 flex justify-center gap-2">
         <Button
@@ -31,7 +30,7 @@ export default function NotFound(): React.JSX.Element {
           size="lg"
           onClick={handleGoBack}
         >
-          Go back
+          Voltar
         </Button>
         <Button
           type="button"
@@ -39,7 +38,7 @@ export default function NotFound(): React.JSX.Element {
           size="lg"
           onClick={handleBackToHome}
         >
-          Back to Home
+          Voltar para o início
         </Button>
       </div>
     </div>

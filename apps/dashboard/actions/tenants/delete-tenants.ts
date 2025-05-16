@@ -17,7 +17,7 @@ export const deleteTenants = authOrganizationActionClient
         id: {
           in: parsedInput.ids,
         },
-        // organizationId: ctx.organization.id
+        organizationId: ctx.organization.id
       },
     });
 

@@ -142,6 +142,12 @@ export function getUserImageUrl(userId: string, hash: string): string {
   return `${routes.dashboard.Api}/user-images/${userId}?v=${hash}`;
 }
 
+
+// remover depois
 export function getContactImageUrl(contactId: string, hash: string): string {
   return `${routes.dashboard.Api}/contact-images/${contactId}?v=${hash}`;
+}
+
+export function getTenantImageUrl(tenantId: string, hash: string): string {
+  return `${routes.dashboard.Api}/tenant-images/${tenantId}?v=${hash}`;
 }
