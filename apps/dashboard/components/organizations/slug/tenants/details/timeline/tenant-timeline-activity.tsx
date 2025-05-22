@@ -3,6 +3,7 @@
 import * as React from "react";
 import { format, formatDistanceToNow } from "date-fns";
 import { ArrowRightIcon, ClockIcon } from "lucide-react";
+import { ptBR } from "date-fns/locale";
 
 import { ActionType } from "@workspace/database";
 import {
@@ -84,12 +85,12 @@ export function TenantTimelineActivity({
             <div className="flex w-fit items-center space-x-1 text-xs text-muted-foreground">
               <ClockIcon className="size-3 shrink-0" />
               <time suppressHydrationWarning>
-                {formatDistanceToNow(event.occurredAt, { addSuffix: true })}
+                {formatDistanceToNow(event.occurredAt, { addSuffix: true, locale: ptBR })}
               </time>
             </div>
           </TooltipTrigger>
           <TooltipContent>
-            {format(event.occurredAt, "d MMM yyyy HH:mm:ss")}
+            {format(event.occurredAt, "d MMM yyyy HH:mm:ss", { locale: ptBR })}
           </TooltipContent>
         </Tooltip>
       </div>
