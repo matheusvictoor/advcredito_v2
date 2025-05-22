@@ -28,4 +28,11 @@ export type TenantDto = {
   propertyNumber?: string;
   pendingInstallmentsCount?: number;
   assetsContractCount?: number;
+  person?: {
+    cpf: string;
+    birthDate?: Date;
+  };
+  company?: {
+    cnpj: string;
+  }
 };

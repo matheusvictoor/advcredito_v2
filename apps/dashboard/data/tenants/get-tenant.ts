@@ -84,7 +84,11 @@ export async function getTenant(input: GetTenantSchema): Promise<TenantDto> {
         neighborhood: tenant.neighborhood ? tenant.neighborhood : undefined,
         zipcode: tenant.zipcode ? tenant.zipcode : undefined,
         city: tenant.city ? tenant.city : undefined,
+        state: tenant.state ? tenant.state : undefined,
+        complement: tenant.complement ? tenant.complement : undefined,
         createdAt: tenant.createdAt,
+        person: tenant.person ? tenant.person : undefined,
+        company: tenant.company ? tenant.company : undefined,
       };
 
       return response;
