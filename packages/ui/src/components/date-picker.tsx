@@ -27,7 +27,7 @@ export type DatePickerProps = ButtonProps & {
 function DatePicker({
   date,
   onDateChange,
-  placeholder = "Escolha uma data",
+  placeholder = "Selecionar data",
   presets = defaultPresets,
   className,
   variant,
@@ -127,7 +127,6 @@ function DateRangePicker({
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="end">
           <Calendar
-            initialFocus
             mode="range"
             locale={ptBR}
             defaultMonth={dateRange?.from}
@@ -144,4 +143,56 @@ function DateRangePicker({
 }
 DateRangePicker.displayName = "DateRangePicker";
 
-export { DatePicker, DateRangePicker, DateRange };
+
+export type DatePickerDropdownProps = {
+  date: Date | undefined;
+  onDateChange: (date: Date | undefined) => void;
+  placeholder?: string;
+  className?: string;
+  disabled?: boolean;
+}
+function DatePickerDropdown({
+  date,
+  onDateChange,
+  placeholder = "Selecionar data",
+  className,
+  disabled = false
+}: DatePickerDropdownProps) {
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          variant={"outline"}
+          className={cn(
+            "w-full justify-start text-left font-normal",
+            !date && "text-muted-foreground",
+            className
+          )}
+          disabled={disabled}
+        >
+          <CalendarIcon className="mr-2 h-4 w-4" />
+          {date ? (
+            format(date, "dd 'de' MMMM 'de' yyyy", { locale: ptBR })
+          ) : (
+            <span>{placeholder}</span>
+          )}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-auto p-0" align="start">
+        <Calendar
+          mode="single"
+          selected={date}
+          onSelect={onDateChange}
+          initialFocus
+          locale={ptBR}
+          disabled={(date) => disabled || date > new Date()}
+          fromYear={1900}
+          toYear={new Date().getFullYear()}
+        />
+      </PopoverContent>
+    </Popover>
+  );
+}
+DatePickerDropdown.displayName = "DatePickerDropdown";
+
+export { DatePicker, DateRangePicker, DateRange, DatePickerDropdown };
