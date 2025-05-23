@@ -29,7 +29,9 @@ import { Input } from "@workspace/ui/components/input";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@workspace/ui/components/select";
@@ -57,12 +59,8 @@ import { Separator } from "@workspace/ui/components/separator";
 import { Badge } from "@workspace/ui/components/badge";
 import StatusBadge from "./tenant-status-badge";
 import { mask } from "~/lib/formatters";
-import { ptBR } from "date-fns/locale";
-
-import { Calendar } from "@workspace/ui/components/calendar";
-import { format } from "date-fns";
-import { Popover, PopoverContent, PopoverTrigger } from "@workspace/ui/components/popover";
 import { ScrollArea } from "@workspace/ui/components/scroll-area";
+import { DatePickerDropdown } from "@workspace/ui/components/date-picker";
 
 export type TenantDetailsSectionProps =
   React.HtmlHTMLAttributes<HTMLDivElement> & {
@@ -162,7 +160,9 @@ function TenantImage(tenant: TenantDto): React.JSX.Element {
           <div className="flex flex-wrap justify-center gap-4">
             <StatusBadge status={tenant.status} />
             <Badge variant="secondary" className="py-1 rounded-full">
-              {tenant.record === "PERSON" ? "Pessoa Física" : "Pessoa Jurídica"}
+              {tenant.record === "PERSON"
+                ? tenantRecordLabel.PERSON
+                : tenantRecordLabel.COMPANY}
             </Badge>
           </div>
         </div>
@@ -189,9 +189,14 @@ function Properties(tenant: TenantDto): React.JSX.Element {
       city: tenant.city,
       state: tenant.state,
       complement: tenant.complement,
-      cpf: tenant.person?.cpf,
-      birthDate: tenant.person?.birthDate,
-      cnpj: tenant.company?.cnpj,
+      //   ...(tenant.record === TenantRecord.PERSON
+      //     ? {
+      //       cpf: tenant.person?.cpf,
+      //       birthDate: tenant.person?.birthDate,
+      //     }
+      //     : {
+      //       cnpj: tenant.company?.cnpj,
+      //     }),
     },
   });
   const canSubmit = !methods.formState.isSubmitting;
@@ -294,7 +299,7 @@ function Properties(tenant: TenantDto): React.JSX.Element {
               }
             />
           )}
-          <Property
+          {/* <Property
             icon={<IdCardIcon className="size-3 shrink-0" />}
             term={tenant.record === "PERSON" ? "Cpf" : "Cnpj"}
             details={
@@ -304,8 +309,8 @@ function Properties(tenant: TenantDto): React.JSX.Element {
                 <span>{mask.cnpj(tenant.company?.cnpj ?? "")}</span>
               )
             }
-          />
-          {tenant.record === "PERSON" && (
+          /> */}
+          {/* {tenant.record === "PERSON" && (
             <Property
               icon={<CalendarIcon className="size-3 shrink-0" />}
               term="Data Nas."
@@ -316,39 +321,13 @@ function Properties(tenant: TenantDto): React.JSX.Element {
                     name="birthDate"
                     render={({ field }) => (
                       <FormItem className="flex w-full flex-col">
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <FormControl>
-                              <Button
-                                variant={"outline"}
-                                className={cn(
-                                  "h-7 pl-3 text-left font-normal",
-                                  !field.value && "text-muted-foreground",
-                                )}
-                              >
-                                {field.value ? (
-                                  format(field.value, "PPP", { locale: ptBR })
-                                ) : (
-                                  <span>Escolha um data</span>
-                                )}
-                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50 " />
-                              </Button>
-                            </FormControl>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar
-                              mode="single"
-                              locale={ptBR}
-                              selected={field.value}
-                              onSelect={field.onChange}
-                              disabled={(date) =>
-                                date > new Date() ||
-                                date < new Date("1900-01-01")
-                              }
-                              initialFocus
-                            />
-                          </PopoverContent>
-                        </Popover>
+                        <DatePickerDropdown
+                          date={field.value}
+                          onDateChange={field.onChange}
+                          placeholder="Selecione uma data"
+                          className="w-full h-7"
+                          disabled={methods.formState.isSubmitting}
+                        />
                         <FormMessage />
                       </FormItem>
                     )}
@@ -359,9 +338,8 @@ function Properties(tenant: TenantDto): React.JSX.Element {
                   ""
                 )
               }
-              placeholder="Nenhuma data disponível"
             />
-          )}
+          )} */}
           <Property
             icon={<MailIcon className="size-3 shrink-0" />}
             term="Email"
@@ -455,12 +433,11 @@ function Properties(tenant: TenantDto): React.JSX.Element {
             }
             placeholder="Nenhum rua disponível"
           />
-
           <Property
             icon={
               <Separator
                 orientation="vertical"
-                className="flex items-center h-8 m-1.5 "
+                className="flex items-center h-7 m-1.5 "
               />
             }
             term="Número"
@@ -495,7 +472,7 @@ function Properties(tenant: TenantDto): React.JSX.Element {
             icon={
               <Separator
                 orientation="vertical"
-                className="flex items-center h-8 m-1.5 "
+                className="flex items-center h-7 m-1.5 "
               />
             }
             term="Bairro"
@@ -530,7 +507,7 @@ function Properties(tenant: TenantDto): React.JSX.Element {
             icon={
               <Separator
                 orientation="vertical"
-                className="flex items-center h-8 m-1.5 "
+                className="flex items-center h-7 m-1.5 "
               />
             }
             term="Cep"
@@ -565,7 +542,7 @@ function Properties(tenant: TenantDto): React.JSX.Element {
             icon={
               <Separator
                 orientation="vertical"
-                className="flex items-center h-8 m-1.5 "
+                className="flex items-center h-7 m-1.5 "
               />
             }
             term="Cidade"
@@ -600,7 +577,7 @@ function Properties(tenant: TenantDto): React.JSX.Element {
             icon={
               <Separator
                 orientation="vertical"
-                className="flex items-center h-8 m-1.5 "
+                className="flex items-center h-7 m-1.5 "
               />
             }
             term="Estado"
@@ -612,48 +589,47 @@ function Properties(tenant: TenantDto): React.JSX.Element {
                   render={({ field }) => (
                     <FormItem className="flex w-full flex-col">
                       <FormControl>
-                      <Select
-                        {...field}
-                        value={field.value}
-                        disabled={methods.formState.isSubmitting}
-                        onValueChange={field.onChange}
-                      >
-                        <SelectTrigger className="[&>span]:truncate h-7">
-                          <SelectValue className="text-" placeholder="Nenhum estado disponível" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <ScrollArea style={{ maxHeight: "180px" }}>
-                            <SelectItem
-                              key="empty"
-                              value={null as unknown as string}
-                            >
-                            </SelectItem>
-                            {tenantAddressStates.map((state) => (
+                        <Select
+                          {...field}
+                          value={field.value || ""}
+                          onValueChange={(value) => field.onChange(value === "none" ? "" : value)}
+                          disabled={methods.formState.isSubmitting}
+                        >
+                          <SelectTrigger className="[&>span]:truncate h-7">
+                            <SelectValue placeholder="Selecione um estado" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <ScrollArea style={{ maxHeight: "180px" }}>
                               <SelectItem
-                                key={state.code}
-                                value={state.code}
+                                className="!text-muted-foreground h-7"
+                                value="none"
                               >
-                                {state.name}
+                                Estados
                               </SelectItem>
-                            ))}
-                          </ScrollArea>
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                      <FormMessage />
+                              <Separator />
+                              {tenantAddressStates.map((state) => (
+                                <SelectItem key={state.code} value={state.code}>
+                                  {state.name}
+                                </SelectItem>
+                              ))}
+                            </ScrollArea>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
                     </FormItem>
                   )}
                 />
               ) : (
-                tenant.state
+                tenantAddressStates.find((s) => s.code === tenant.state)?.name
               )
             }
+            placeholder="Nenhum estado disponível"
           />
           <Property
             icon={
               <Separator
                 orientation="vertical"
-                className="flex items-center h-8 m-1.5 "
+                className="flex items-center h-7 m-1.5 "
               />
             }
             term="Compl."
