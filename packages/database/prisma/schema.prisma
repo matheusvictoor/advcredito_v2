@@ -753,7 +753,7 @@ model Tenant {
   zipcode        String?           @db.VarChar(10)
   city           String?           @db.VarChar(64)
   complement     String?           @db.VarChar(255)
-  state          String?           @db.VarChar(64)
+  state          String?           @db.VarChar(2)
   createdAt      DateTime          @default(now())
   updatedAt      DateTime          @updatedAt
   organization   Organization?     @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -847,15 +847,15 @@ model TenantNote {
 }
 
 model TenantTask {
-  id          String            @id(map: "PK_TenantTask") @default(uuid()) @db.Uuid
-  tenantId   String            @db.Uuid
-  title       String            @db.VarChar(255)
-  description String?           @db.VarChar(8000)
+  id          String           @id(map: "PK_TenantTask") @default(uuid()) @db.Uuid
+  tenantId    String           @db.Uuid
+  title       String           @db.VarChar(255)
+  description String?          @db.VarChar(8000)
   status      TenantTaskStatus @default(OPEN)
   dueDate     DateTime?
-  createdAt   DateTime          @default(now())
-  updatedAt   DateTime          @updatedAt
-  tenant     Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  tenant      Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@index([tenantId], map: "IX_TenantTask_tenantId")
 }
