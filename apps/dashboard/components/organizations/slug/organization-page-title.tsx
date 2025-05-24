@@ -29,7 +29,7 @@ export function OrganizationPageTitle({
 }: OrganizationPageTitleProps): React.JSX.Element {
   const { slug } = useActiveOrganization();
   return (
-    <div className="flex flex-row items-center gap-2">
+    <div className="flex flex-row items-center gap-2 w-[200px] sm:w-full">
       {index && (
         <>
           <Link
@@ -41,7 +41,7 @@ export function OrganizationPageTitle({
           <ChevronRightIcon className="size-3.5 shrink-0 text-muted-foreground" />
         </>
       )}
-      <PageTitle>{title}</PageTitle>
+      <PageTitle className="truncate">{title}</PageTitle>
       {info && (
         <Tooltip delayDuration={0}>
           <TooltipTrigger asChild>
