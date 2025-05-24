@@ -9,6 +9,7 @@ import { updateTenantAndCaptureEvent } from "~/actions/tenants/_tenant-event-cap
 import { authOrganizationActionClient } from "~/actions/safe-action";
 import { Caching, OrganizationCacheKey } from "~/data/caching";
 import { updateTenantPropertiesSchema } from "~/schemas/tenants/update-tenant-properties-schema";
+import { TenantRecord } from "@workspace/database";
 
 export const updateTenantProperties = authOrganizationActionClient
   .metadata({ actionName: "updateTenantProperties" })
@@ -23,7 +24,7 @@ export const updateTenantProperties = authOrganizationActionClient
     if (count < 1) {
       throw new NotFoundError("Tenant not found");
     }
-
+    
     await updateTenantAndCaptureEvent(
       parsedInput.id,
       {
@@ -38,10 +39,16 @@ export const updateTenantProperties = authOrganizationActionClient
         city: parsedInput.city,
         state: parsedInput.state,
         complement: parsedInput.complement,
+        ...(parsedInput.record === TenantRecord.PERSON && {
+          person: {
+            update: {
+              birthDate: parsedInput.birthDate,
+            },
+          },
+        }),
       },
       ctx.session.user.id,
     );
-
     revalidateTag(
       Caching.createOrganizationTag(
         OrganizationCacheKey.Tenants,

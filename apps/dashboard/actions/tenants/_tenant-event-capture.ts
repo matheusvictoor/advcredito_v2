@@ -3,6 +3,7 @@ import {
   ActorType,
   type Tenant,
   type Prisma,
+  TenantRecord,
 } from "@workspace/database";
 import { prisma } from "@workspace/database/client";
 
@@ -21,6 +22,9 @@ const fieldsToCheck = [
   "city",
   "complement",
   "state",
+  "cpf",
+  "birthDate",
+  "cnpj",
 ] as const;
 
 type FieldToCheck = (typeof fieldsToCheck)[number];
@@ -40,7 +44,6 @@ function safeStringify<T>(value: T): string | null {
   }
   return typeof value === "object" ? JSON.stringify(value) : String(value);
 }
-
 export function detectChanges(
   currentTenant: Partial<Tenant> | null,
   updatedTenant: Tenant,
@@ -60,7 +63,6 @@ export function detectChanges(
 
   return changes;
 }
-
 export async function createTenantAndCaptureEvent(
   tenantData: Prisma.TenantCreateInput,
   actorId: string,
@@ -91,15 +93,18 @@ export async function createTenantAndCaptureEvent(
     return newTenant;
   });
 }
-
 export async function updateTenantAndCaptureEvent(
   tenantId: string,
-  updateData: Prisma.TenantUpdateInput,
+  updateData: Prisma.TenantUpdateInput & {
+    birthDate?: Date;
+    record: TenantRecord;
+  },
   actorId: string,
 ): Promise<TenantChanges> {
   return await prisma.$transaction(async (tx) => {
     const currentTenant = await tx.tenant.findUnique({
       where: { id: tenantId },
+      include: { person: true, company: true },
     });
 
     if (!currentTenant) {
@@ -108,7 +113,7 @@ export async function updateTenantAndCaptureEvent(
 
     const updatedTenant = await tx.tenant.update({
       where: { id: tenantId },
-      data: { ...updateData, updatedAt: new Date() },
+      data: updateData,
     });
 
     const changes = detectChanges(currentTenant, updatedTenant, updateData);

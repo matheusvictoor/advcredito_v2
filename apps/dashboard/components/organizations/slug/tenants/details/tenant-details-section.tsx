@@ -29,9 +29,7 @@ import { Input } from "@workspace/ui/components/input";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@workspace/ui/components/select";
@@ -50,7 +48,6 @@ import { useZodForm } from "~/hooks/use-zod-form";
 import { FileUploadAction, MAX_IMAGE_SIZE } from "~/lib/file-upload";
 import { tenantRecordLabel } from "~/lib/labels";
 import {
-  tenantAddressStates,
   updateTenantPropertiesSchema,
   type UpdateTenantPropertiesSchema,
 } from "~/schemas/tenants/update-tenant-properties-schema";
@@ -58,15 +55,14 @@ import type { TenantDto } from "~/types/dtos/tenant-dto";
 import { Separator } from "@workspace/ui/components/separator";
 import { Badge } from "@workspace/ui/components/badge";
 import StatusBadge from "./tenant-status-badge";
-import { mask } from "~/lib/formatters";
+import { BrazilianState, brazilianStates, mask } from "~/lib/formatters";
 import { ScrollArea } from "@workspace/ui/components/scroll-area";
 import { DatePickerDropdown } from "@workspace/ui/components/date-picker";
+import { formatDateBR } from "~/lib/fomatDateBR";
 
-export type TenantDetailsSectionProps =
-  React.HtmlHTMLAttributes<HTMLDivElement> & {
+export type TenantDetailsSectionProps = React.HtmlHTMLAttributes<HTMLDivElement> & {
     tenant: TenantDto;
   };
-
 export function TenantDetailsSection({
   tenant,
   ...others
@@ -78,7 +74,6 @@ export function TenantDetailsSection({
     </section>
   );
 }
-
 function TenantImage(tenant: TenantDto): React.JSX.Element {
   const handleDrop = async (files: File[]): Promise<void> => {
     if (files && files.length > 0) {
@@ -157,9 +152,9 @@ function TenantImage(tenant: TenantDto): React.JSX.Element {
         </div>
         <div className="text-center max-w-[250px] truncate space-y-2">
           <h2 className="text-lg font-bold mb-1">{tenant.name}</h2>
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-wrap justify-start gap-4 p-1">
             <StatusBadge status={tenant.status} />
-            <Badge variant="secondary" className="py-1 rounded-full">
+            <Badge variant="default" className="py-1 rounded-md">
               {tenant.record === "PERSON"
                 ? tenantRecordLabel.PERSON
                 : tenantRecordLabel.COMPANY}
@@ -189,14 +184,9 @@ function Properties(tenant: TenantDto): React.JSX.Element {
       city: tenant.city,
       state: tenant.state,
       complement: tenant.complement,
-      //   ...(tenant.record === TenantRecord.PERSON
-      //     ? {
-      //       cpf: tenant.person?.cpf,
-      //       birthDate: tenant.person?.birthDate,
-      //     }
-      //     : {
-      //       cnpj: tenant.company?.cnpj,
-      //     }),
+      ...(tenant.record === TenantRecord.PERSON && {
+        birthDate: tenant.person?.birthDate,
+      }),
     },
   });
   const canSubmit = !methods.formState.isSubmitting;
@@ -214,6 +204,7 @@ function Properties(tenant: TenantDto): React.JSX.Element {
       return;
     }
     const result = await updateTenantProperties(values);
+
     if (!result?.serverError && !result?.validationErrors) {
       toast.success("Informações atualizadas");
       setEditMode(false);
@@ -266,6 +257,15 @@ function Properties(tenant: TenantDto): React.JSX.Element {
           )}
         </div>
         <dl className="space-y-1 text-sm">
+          <Property
+            icon={<IdCardIcon className="size-3 shrink-0" />}
+            term={tenant.record === "PERSON" ? "Cpf" : "Cnpj"}
+            details={
+              tenant.record === "PERSON"
+                ? mask.cpf(tenant.person?.cpf ?? "")
+                : mask.cnpj(tenant.company?.cnpj ?? "")
+            }
+          />
           {editMode && (
             <Property
               icon={
@@ -299,47 +299,40 @@ function Properties(tenant: TenantDto): React.JSX.Element {
               }
             />
           )}
-          {/* <Property
-            icon={<IdCardIcon className="size-3 shrink-0" />}
-            term={tenant.record === "PERSON" ? "Cpf" : "Cnpj"}
-            details={
-              tenant.record === "PERSON" ? (
-                <span>{mask.cpf(tenant.person?.cpf ?? "")}</span>
-              ) : (
-                <span>{mask.cnpj(tenant.company?.cnpj ?? "")}</span>
-              )
-            }
-          /> */}
-          {/* {tenant.record === "PERSON" && (
+          {tenant.record === "PERSON" && (
             <Property
               icon={<CalendarIcon className="size-3 shrink-0" />}
               term="Data Nas."
               details={
-                editMode ? (
-                  <FormField
-                    control={methods.control}
-                    name="birthDate"
-                    render={({ field }) => (
-                      <FormItem className="flex w-full flex-col">
-                        <DatePickerDropdown
-                          date={field.value}
-                          onDateChange={field.onChange}
-                          placeholder="Selecione uma data"
-                          className="w-full h-7"
-                          disabled={methods.formState.isSubmitting}
-                        />
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                ) : tenant.person?.birthDate ? (
-                  new Date(tenant.person?.birthDate).toLocaleDateString("pt-BR")
-                ) : (
-                  ""
-                )
+                <FormField
+                  control={methods.control}
+                  name="birthDate"
+                  render={({ field }) => (
+                    <FormItem className="flex w-full flex-col">
+                      <DatePickerDropdown
+                        date={
+                          field.value ??
+                          (tenant.person?.birthDate
+                            ? new Date(tenant.person.birthDate)
+                            : undefined)
+                        }
+                        onDateChange={field.onChange}
+                        placeholder="Selecione uma data"
+                        className={`${cn(
+                          "w-full h-7",
+                          !editMode &&
+                            "border-none disabled:text-white disabled:opacity-100",
+                        )} 
+                            ${editMode ? "pl-4" : "pl-0"}`}
+                        disabled={methods.formState.isSubmitting || !editMode}
+                      />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               }
             />
-          )} */}
+          )}
           <Property
             icon={<MailIcon className="size-3 shrink-0" />}
             term="Email"
@@ -592,7 +585,9 @@ function Properties(tenant: TenantDto): React.JSX.Element {
                         <Select
                           {...field}
                           value={field.value || ""}
-                          onValueChange={(value) => field.onChange(value === "none" ? "" : value)}
+                          onValueChange={(value) =>
+                            field.onChange(value === "none" ? "" : value)
+                          }
                           disabled={methods.formState.isSubmitting}
                         >
                           <SelectTrigger className="[&>span]:truncate h-7">
@@ -607,7 +602,7 @@ function Properties(tenant: TenantDto): React.JSX.Element {
                                 Estados
                               </SelectItem>
                               <Separator />
-                              {tenantAddressStates.map((state) => (
+                              {brazilianStates.map((state: BrazilianState) => (
                                 <SelectItem key={state.code} value={state.code}>
                                   {state.name}
                                 </SelectItem>
@@ -620,7 +615,9 @@ function Properties(tenant: TenantDto): React.JSX.Element {
                   )}
                 />
               ) : (
-                tenantAddressStates.find((s) => s.code === tenant.state)?.name
+                brazilianStates.find(
+                  (state: BrazilianState) => state.code === tenant.state,
+                )?.name
               )
             }
             placeholder="Nenhum estado disponível"
@@ -661,6 +658,14 @@ function Properties(tenant: TenantDto): React.JSX.Element {
             placeholder="Nenhuma informção disponível"
           />
         </dl>
+        <time className="flex justify-end pt-3" suppressHydrationWarning>
+          <Badge
+            variant="outline"
+            className="ml-2 pt-1 rounded-md font-light text-muted-foreground"
+          >
+            Criado em: {formatDateBR(tenant.createdAt, "dd/MM/yyyy")}
+          </Badge>
+        </time>
       </form>
     </FormProvider>
   );
