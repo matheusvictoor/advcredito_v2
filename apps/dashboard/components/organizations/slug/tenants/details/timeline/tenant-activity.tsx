@@ -82,7 +82,7 @@ export function TenantActivity({
                   size="sm"
                   onClick={handleToggleShowMore}
                 >
-                  {showMore ? "Show less" : "Show more"}
+                  {showMore ? "Mostrar menos" : "Mostrar mais"}
                   {showMore ? (
                     <ChevronUpIcon className="ml-1 size-4 shrink-0" />
                   ) : (

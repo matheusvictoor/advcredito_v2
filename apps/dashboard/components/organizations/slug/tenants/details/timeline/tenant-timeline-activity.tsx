@@ -19,12 +19,28 @@ import {
 } from "@workspace/ui/components/tooltip";
 import { cn } from "@workspace/ui/lib/utils";
 
-import { capitalize, getInitials } from "~/lib/formatters";
+import { capitalize, getInitials, formatValue } from "~/lib/formatters";
 import { tenantRecordLabel, tenantStatusLabel } from "~/lib/labels";
 import type { ActivityTimelineEventDto } from "~/types/dtos/timeline-event-dto";
 
 export interface TenantTimelineActivityProps {
   event: ActivityTimelineEventDto;
+}
+
+const translateKey = (key: string): string => {
+  const translations: Record<string, string> = {
+    name: "Nome",
+    phone: "Telefone",
+    birthDate: "Data de Nascimento",
+    street: "Rua",
+    number: "Número",
+    neighborhood: "Bairro",
+    city: "Cidade",
+    state: "Estado",
+    complement: "Complemento"
+  }
+
+  return translations[key] || capitalize(key);
 }
 
 export function TenantTimelineActivity({
@@ -34,8 +50,8 @@ export function TenantTimelineActivity({
     if (!event.metadata) return null;
     return Object.entries(event.metadata).map(([key, value]) => ({
       key,
-      oldValue: value.old || "Empty",
-      newValue: value.new || "Empty",
+      oldValue: value.old || "Vazio",
+      newValue: value.new || "Vazio",
     }));
   }, [event.metadata]);
 
@@ -62,18 +78,18 @@ export function TenantTimelineActivity({
             {changes.map(({ key, oldValue, newValue }) => (
               <div key={key} className="flex w-full flex-col gap-2">
                 <span className="block text-xs font-medium text-muted-foreground">
-                  {capitalize(key)}
+                  {translateKey(key)}
                 </span>
                 <div className="flex w-full flex-row items-center gap-2">
                   <div className="min-w-0 flex-1">
-                    <ValueBadge property={key} value={oldValue} variant="Old" />
+                    <ValueBadge property={key} value={formatValue(key, oldValue)} variant="Old" />
                   </div>
                   <ArrowRightIcon
                     className="block size-3 shrink-0 text-muted-foreground opacity-65"
                     aria-hidden="true"
                   />
                   <div className="min-w-0 flex-1">
-                    <ValueBadge property={key} value={newValue} variant="New" />
+                    <ValueBadge property={key} value={formatValue(key, newValue)} variant="New" />
                   </div>
                 </div>
               </div>
@@ -121,7 +137,7 @@ function ValueBadge({
   variant,
 }: ValueBadgeProps): React.JSX.Element {
   const text = React.useMemo(() => {
-    if (!value) return "Empty";
+    if (!value) return "Vazio";
     return propertyLabelMap[property]?.[value] || value;
   }, [property, value]);
 
