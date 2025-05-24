@@ -28,8 +28,8 @@ export type CropPhotoModalProps = NiceModalHocProps & {
 export const CropPhotoModal = NiceModal.create<CropPhotoModalProps>(
   ({ file, aspectRatio, circularCrop }) => {
     const modal = useEnhancedModal();
-    const title = "Crop photo";
-    const description = "Adjust the size of the grid to crop your image.";
+    const title = "Cortar foto";
+    const description = "Ajuste o tamanho da grade para cortar sua imagem.";
     const cropperRef = React.useRef<CropperElement>(null);
 
     const handleApply = async () => {
@@ -39,7 +39,7 @@ export const CropPhotoModal = NiceModal.create<CropPhotoModalProps>(
           modal.resolve(croppedImage);
           modal.handleClose();
         } else {
-          toast.error("Failed to crop the image.");
+          toast.error("Erro ao cortar a imagem.");
         }
       }
     };
@@ -70,10 +70,10 @@ export const CropPhotoModal = NiceModal.create<CropPhotoModalProps>(
                 variant="outline"
                 onClick={modal.handleClose}
               >
-                Cancel
+                Cancelar
               </Button>
               <Button type="button" variant="default" onClick={handleApply}>
-                Apply
+                Aplicar
               </Button>
             </DialogFooter>
           </div>

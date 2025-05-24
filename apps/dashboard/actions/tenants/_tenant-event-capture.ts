@@ -95,10 +95,7 @@ export async function createTenantAndCaptureEvent(
 }
 export async function updateTenantAndCaptureEvent(
   tenantId: string,
-  updateData: Prisma.TenantUpdateInput & {
-    birthDate?: Date;
-    record: TenantRecord;
-  },
+  updateData: Prisma.TenantUpdateInput,
   actorId: string,
 ): Promise<TenantChanges> {
   return await prisma.$transaction(async (tx) => {

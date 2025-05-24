@@ -116,19 +116,33 @@ function TenantImage(tenant: TenantDto): React.JSX.Element {
     }
   };
   return (
-    <div className="flex items-center justify-center p-6">
+    <div className="flex items-center justify-center p-6 flex-col gap-6">
       <div className="relative space-y-6">
         <div className="flex justify-center">
           <ImageDropzone
             accept={{ "image/*": [] }}
             multiple={false}
             onDrop={handleDrop}
-            borderRadius={"md"}
+            borderRadius={tenant.record === TenantRecord.PERSON ? "full" : "md"}
             src={tenant.image}
             className="max-h-[120px] min-h-[120px] w-[120px] p-0.5"
           >
-            <Avatar className={cn("size-28", "rounded-md")}>
-              <AvatarFallback className={cn("size-28 text-2xl", "rounded-md")}>
+            <Avatar
+              className={cn(
+                "size-28",
+                tenant.record === TenantRecord.PERSON
+                  ? "rounded-full"
+                  : "rounded-md",
+              )}
+            >
+              <AvatarFallback
+                className={cn(
+                  "size-28 text-2xl",
+                  tenant.record === TenantRecord.PERSON
+                    ? "rounded-full"
+                    : "rounded-md",
+                )}
+              >
                 <UploadIcon className="size-5 shrink-0 text-muted-foreground" />
               </AvatarFallback>
             </Avatar>
@@ -146,20 +160,20 @@ function TenantImage(tenant: TenantDto): React.JSX.Element {
                   <TrashIcon className="size-4 shrink-0" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent side="right">Remover imagem</TooltipContent>
+              <TooltipContent side="right">Remove image</TooltipContent>
             </Tooltip>
           )}
         </div>
-        <div className="text-center max-w-[250px] truncate space-y-2">
-          <h2 className="text-lg font-bold mb-1">{tenant.name}</h2>
-          <div className="flex flex-wrap justify-start gap-4 p-1">
-            <StatusBadge status={tenant.status} />
-            <Badge variant="default" className="py-1 rounded-md">
-              {tenant.record === "PERSON"
-                ? tenantRecordLabel.PERSON
-                : tenantRecordLabel.COMPANY}
-            </Badge>
-          </div>
+      </div>
+      <div className="text-center max-w-[250px] truncate space-y-2">
+        <h2 className="text-lg font-bold mb-1">{tenant.name}</h2>
+        <div className="flex flex-wrap justify-start gap-4 p-1">
+          <StatusBadge status={tenant.status} />
+          <Badge variant="default" className="py-1 rounded-md">
+            {tenant.record === "PERSON"
+              ? tenantRecordLabel.PERSON
+              : tenantRecordLabel.COMPANY}
+          </Badge>
         </div>
       </div>
     </div>
