@@ -287,7 +287,7 @@ model ContactComment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   contact   Contact  @relation(fields: [contactId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  // user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@index([contactId], map: "IX_ContactComment_contactId")
   @@index([userId], map: "IX_ContactComment_userId")
@@ -311,7 +311,7 @@ model ContactNote {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   contact   Contact  @relation(fields: [contactId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  // user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@index([contactId], map: "IX_ContactNote_contactId")
   @@index([userId], map: "IX_ContactNote_userId")
@@ -323,7 +323,7 @@ model ContactPageVisit {
   userId    String?  @db.Uuid
   timestamp DateTime @default(now())
   contact   Contact  @relation(fields: [contactId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  // user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade)
 
   @@index([contactId], map: "IX_ContactPageVisit_contactId")
   @@index([userId], map: "IX_ContactPageVisit_userId")
@@ -490,7 +490,8 @@ model User {
   password                     String?              @db.VarChar(60)
   lastLogin                    DateTime?
   phone                        String?              @db.VarChar(32)
-  locale                       String               @default("en-US") @db.VarChar(8)
+  locale                       String               @default("pt-BR") @db.VarChar(8)
+  role                         Role                 @default(MEMBER)
   completedOnboarding          Boolean              @default(false)
   enabledContactsNotifications Boolean              @default(false)
   enabledInboxNotifications    Boolean              @default(false)
@@ -502,13 +503,13 @@ model User {
   accounts                     Account[]
   authenticatorApp             AuthenticatorApp?
   changeEmailRequests          ChangeEmailRequest[]
-  comments                     ContactComment[]
+  comments                     TenantComment[]
   favorites                    Favorite[]
   feedback                     Feedback[]
-  notes                        ContactNote[]
+  notes                        TenantNote[]
   memberships                  Membership[]
   notifications                Notification[]
-  pageVisits                   ContactPageVisit[]
+  pageVisits                   TenantPageVisit[]
   sessions                     Session[]
 }
 
@@ -563,24 +564,24 @@ model WorkTimeSlot {
   @@index([workHoursId], map: "IX_WorkTimeSlot_workHoursId")
 }
 
-// ---- Quando for renomear Actor por User, lembrar de relacionar User com UserImage ---- //
+// remover Actor
 model Actor {
-  id            String            @id(map: "PK_Actor") @default(uuid()) @db.Uuid
-  image         String?           @db.VarChar(2048)
-  name          String            @db.VarChar(64)
-  cpf           String            @unique @db.VarChar(11)
-  phone         String?           @db.VarChar(16)
-  email         String            @unique @db.VarChar(64)
+  id            String     @id(map: "PK_Actor") @default(uuid()) @db.Uuid
+  image         String?    @db.VarChar(2048)
+  name          String     @db.VarChar(64)
+  cpf           String     @unique @db.VarChar(11)
+  phone         String?    @db.VarChar(11)
+  email         String     @unique @db.VarChar(64)
   emailVerified DateTime?
-  password      String            @db.VarChar(64)
+  password      String     @db.VarChar(64)
   lastLogin     DateTime?
-  role          Role              @default(MEMBER)
-  createdAt     DateTime          @default(now())
-  updatedAt     DateTime          @updatedAt
+  role          Role       @default(MEMBER)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
   contracts     Contract[]
-  pageVisits    TenantPageVisit[]
-  comments      TenantComment[]
-  notes         TenantNote[]
+  // pageVisits    TenantPageVisit[]
+  // comments      TenantComment[]
+  // notes         TenantNote[]
 }
 
 model Contract {
@@ -630,7 +631,7 @@ model Owner {
   record       OwnerRecord   @default(PERSON)
   name         String        @db.VarChar(64)
   email        String        @unique @db.VarChar(64)
-  phone        String        @unique @db.VarChar(16)
+  phone        String        @unique @db.VarChar(11)
   archived     Boolean       @default(false)
   street       String?       @db.VarChar(64)
   number       String?       @db.VarChar(10)
@@ -743,7 +744,7 @@ model Tenant {
   name           String            @db.VarChar(64)
   image          String?           @db.VarChar(2048)
   email          String?           @unique @db.VarChar(64)
-  phone          String?           @unique @db.VarChar(16)
+  phone          String?           @unique @db.VarChar(11)
   status         InvitationStatus  @default(PENDING)
   archived       Boolean           @default(false)
   solde          Decimal           @default("0.00") @db.Decimal(10, 2)
@@ -812,7 +813,7 @@ model TenantPageVisit {
   userId    String?  @db.Uuid
   timestamp DateTime @default(now())
   tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  user      Actor?   @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade)
 
   @@index([tenantId], map: "IX_TenantPageVisit_tenantId")
   @@index([userId], map: "IX_TenantPageVisit_userId")
@@ -826,7 +827,7 @@ model TenantComment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  user      Actor    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@index([tenantId], map: "IX_TenantComment_tenantId")
   @@index([userId], map: "IX_TenantComment_userId")
@@ -840,7 +841,7 @@ model TenantNote {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  user      Actor    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@index([tenantId], map: "IX_TenantNote_tenantId")
   @@index([userId], map: "IX_TenantNote_userId")

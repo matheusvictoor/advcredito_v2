@@ -77,7 +77,7 @@ export function TenantTimelineAddComment({
     if (!result?.serverError && !result?.validationErrors) {
       methods.reset(methods.formState.defaultValues);
     } else {
-      toast.error("Couldn't add comment");
+      toast.error("Não foi possível adicionar comentário");
     }
   };
   return (
