@@ -1,4 +1,5 @@
 import { APP_NAME } from "@workspace/common/app";
+import { Decimal } from "decimal.js"
 
 export function createTitle(title: string, addSuffix: boolean = true): string {
   if (!addSuffix) {
@@ -131,12 +132,20 @@ export const formatValue = (key: string, value: string | null | undefined): stri
   }
 };
 
-export const formatCurrency = (value: number) => {
-  return value.toLocaleString("pt-BR", {
+export const formatCurrency = (value: number | Decimal): string => {
+  return new Intl.NumberFormat("pt-BR", {
     style: "currency",
     currency: "BRL",
-  });
+  }).format(typeof value === 'number' ? value : parseFloat(value.toString()));
 };
+
+export const isNegativeValue = (value: string | number): boolean => {
+    if (typeof value === 'number') {
+      return value < 0;
+    } else {
+      return new Decimal(value).isNegative();
+    }
+  };
 
 export const pluralize = (word: string, count: number): string => {
   return count === 1 ? word : `${word}s`;
