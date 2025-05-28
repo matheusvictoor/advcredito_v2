@@ -564,7 +564,6 @@ model WorkTimeSlot {
   @@index([workHoursId], map: "IX_WorkTimeSlot_workHoursId")
 }
 
-// remover Actor
 model Actor {
   id            String     @id(map: "PK_Actor") @default(uuid()) @db.Uuid
   image         String?    @db.VarChar(2048)
@@ -593,7 +592,7 @@ model Contract {
   startContract  DateTime       @default(now())
   endContract    DateTime
   dueDate        DateTime
-  rental         Float
+  rental         Decimal        @default("0.00") @db.Decimal(8, 2)
   status         StatusContract @default(ACTIVE)
   observation    String?        @db.VarChar(255)
   createdAt      DateTime       @default(now())
@@ -615,7 +614,7 @@ model Payment {
   type        TransationType   @default(RENT)
   status      StatusTransation @default(PENDING)
   description String?          @db.VarChar(255)
-  amount      Float
+  amount      Decimal          @default("0.00") @db.Decimal(8, 2)
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
   tenant      Tenant           @relation(fields: [tenantId], references: [id])
@@ -696,11 +695,11 @@ model Property {
   areaBuild      Float?
   canAnimal      Boolean          @default(false)
   observation    String?          @db.VarChar(255)
-  vProperty      Float?
-  vRental        Float?
-  vCondominium   Float?
-  vIptu          Float?
-  vSafe          Float?
+  vProperty      Decimal?         @default("0.00") @db.Decimal(10, 2)
+  vRental        Decimal?         @default("0.00") @db.Decimal(8, 2)
+  vCondominium   Decimal?         @default("0.00") @db.Decimal(8, 2)
+  vIptu          Decimal?         @default("0.00") @db.Decimal(8, 2)
+  vSafe          Decimal?         @default("0.00") @db.Decimal(8, 2)
   dueIptu        DateTime?
   dueCondominium DateTime?
   dueSafe        DateTime?
@@ -715,7 +714,7 @@ model Plan {
   id            Int            @id(map: "PK_Plan") @default(autoincrement()) @db.Integer
   name          String         @db.VarChar(64)
   interval      Int            @db.Integer
-  amount        Float
+  amount        Decimal        @default("0.00") @db.Decimal(8, 2)
   repetition    Int? //null para que seja gerado indefinidamente
   creadedAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
