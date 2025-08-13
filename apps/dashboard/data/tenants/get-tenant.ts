@@ -65,14 +65,14 @@ export async function getTenant(input: GetTenantSchema): Promise<TenantDto> {
           },
           _count: {
             select: {
-              rentals: {
+              contracts: {
                 where: {
                   status: "ACTIVE",
                 },
               },
             },
           },
-          rentals: {
+          contracts: {
             where: {
               status: "ACTIVE",
             },
@@ -106,6 +106,7 @@ export async function getTenant(input: GetTenantSchema): Promise<TenantDto> {
         createdAt: tenant.createdAt,
         person: tenant.person ? tenant.person : undefined,
         company: tenant.company ? tenant.company : undefined,
+        assetsContractCount: tenant._count.contracts,
       };
 
       return response;

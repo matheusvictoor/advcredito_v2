@@ -55,7 +55,7 @@ const dedupedGetUserInfo = cache(async function (userId: string) {
         select: {
           organizationId: true,
           role: true,
-          isOwner: true,
+          isLandlord: true,
         },
       },
     },

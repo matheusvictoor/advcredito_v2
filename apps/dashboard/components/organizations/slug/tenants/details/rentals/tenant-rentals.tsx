@@ -183,14 +183,9 @@ const contracts: TenantContractsDto[] = [
     updatedAt: new Date("2024-06-01"),
   },
 ];
-export function TenantRentals(
-  {
-    // rentals: rentals,
-  }: TenantContractsProps,
-): React.JSX.Element {
+export function TenantRentals({ rentals: rentals, }: TenantContractsProps,): React.JSX.Element {
   const [showMore, setShowMore] = React.useState<boolean>(false);
-  const [contractmodalopen, setcontractmodalopen] =
-    react.usestate<boolean>(false);
+  const [contractmodalopen, setcontractmodalopen] = React.usestate<boolean>(false);
   const amount = rentals.length;
   const threshold = 4;
 
@@ -203,17 +198,17 @@ export function TenantRentals(
     NiceModal.show(ViewTenantRentalModal, { id });
   };
 
-  // const handleShowAddTaskModal = (): void => {
-  //   NiceModal.show(AddTenantTaskModal, { tenantId: tenant.id });
-  // };
+  const handleShowAddTaskModal = (): void => {
+    NiceModal.show(AddTenantTaskModal, { tenantId: tenant.id });
+  };
 
-  // const calculateTotal = (rental: TenantContractsDto): Decimal[] => {
-  //   const totalCharges = rental.charges.reduce((sum: Decimal, charge) => {
-  //     return sum.plus(charge.value);
-  //   }, new Decimal(0));
+  const calculateTotal = (rental: TenantContractsDto): Decimal[] => {
+    const totalCharges = rental.charges.reduce((sum: Decimal, charge) => {
+      return sum.plus(charge.value);
+    }, new Decimal(0));
 
-  //   return [new Decimal(rental.rental).plus(totalCharges), totalCharges];
-  // };
+    return [new Decimal(rental.rental).plus(totalCharges), totalCharges];
+  };
 
   return (
     <ResponsiveScrollArea

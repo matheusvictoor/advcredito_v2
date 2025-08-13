@@ -281,7 +281,7 @@ export function TenantsDataTable({
             </TooltipTrigger>
             <TooltipContent>Saldo do inquilino</TooltipContent>
           </Tooltip>
-          {row.original.pendingInstallmentsCount > 0 && (
+          {/* {(row.original.pendingInstallmentsCount? row.original.pendingInstallmentsCount : 0) > 0 && (
             <Tooltip>
               <TooltipTrigger>
                 <div
@@ -293,13 +293,13 @@ export function TenantsDataTable({
               </TooltipTrigger>
               <TooltipContent>
                 <span>
-                  {row.original.pendingInstallmentsCount > 1
+                  {(row.original.pendingInstallmentsCount? row.original.pendingInstallmentsCount : 0) > 1
                     ? `${row.original.pendingInstallmentsCount} aluguéis atrasados`
                     : `${row.original.pendingInstallmentsCount} aluguel atrasado`}
                 </span>
               </TooltipContent>
             </Tooltip>
-          )}
+          )} */}
         </div>
       ),
       enableSorting: true,
@@ -399,7 +399,7 @@ export function TenantsDataTable({
 
   const handleRowClicked = (row: Row<TenantDto>): void => {
     router.push(
-      `${replaceOrgSlug(routes.dashboard.organizations.slug.Contacts, activeOrganization.slug)}/${row.original.id}`,
+      `${replaceOrgSlug(routes.dashboard.organizations.slug.Tenants, activeOrganization.slug)}/${row.original.id}`,
     );
   };
 

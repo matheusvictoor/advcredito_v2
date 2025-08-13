@@ -27,6 +27,7 @@ export type TenantDto = {
   propertyType?: PropertyType;
   propertyNumber?: string;
   pendingInstallmentsCount?: number;
+  assetsContractCount: number;
   person?: {
     cpf: string;
     birthDate?: Date;
