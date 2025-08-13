@@ -79,12 +79,12 @@ export async function getTenants(input: GetTenantsSchema): Promise<{
               archived: true,
               solde: true,
               createdAt: true,
-              contracts: {
+              rentals: {
                 where: {
                   status: "ACTIVE",
                 },
                 select: {
-                  propertys: {
+                  property: {
                     select: {
                       type: true,
                       number: true,
@@ -103,7 +103,7 @@ export async function getTenants(input: GetTenantsSchema): Promise<{
               },
               _count: {
                 select: {
-                  contracts: {
+                  rentals: {
                     where: {
                       status: "ACTIVE",
                     },
@@ -149,13 +149,13 @@ export async function getTenants(input: GetTenantsSchema): Promise<{
         archived: tenant.archived,
         solde: tenant.solde.toString(),
         createdAt: tenant.createdAt,
-        propertyType: tenant.contracts[0]?.propertys[0]?.type,
-        propertyNumber: tenant.contracts[0]?.propertys[0]?.number,
-        pendingInstallmentsCount: tenant.contracts.reduce(
+        propertyType: tenant.rentals[0]?.property.type,
+        propertyNumber: tenant.rentals[0]?.property.number,
+        pendingInstallmentsCount: tenant.rentals.reduce(
           (acc, contract) => acc + contract._count.payments,
           0,
         ),
-        assetsContractCount: tenant._count.contracts,
+        assetsContractCount: tenant._count.rentals,
       }));
 
       return { tenants: mapped, filteredCount, totalCount, assetsCount };

@@ -52,9 +52,9 @@ export function TransactionalEmailsCard({
     }
     const result = await updateTransactionalEmails(values);
     if (!result?.serverError && !result?.validationErrors) {
-      toast.success("Transactional emails updated");
+      toast.success("Emails transacionais atualizados");
     } else {
-      toast.error("Couldn't update transactional emails");
+      toast.error("Não foi possível atualizar os emails transacionais");
     }
   };
   return (
@@ -70,7 +70,7 @@ export function TransactionalEmailsCard({
                   <div className="space-y-0.5">
                     <FormLabel>Contacts</FormLabel>
                     <FormDescription>
-                      Someone on your team added or changed a lead.
+                      Alguém na sua equipe adcionou ou alterou uma lead.
                     </FormDescription>
                   </div>
                   <FormControl>
@@ -91,7 +91,7 @@ export function TransactionalEmailsCard({
                   <div className="space-y-0.5">
                     <FormLabel>Inbox</FormLabel>
                     <FormDescription>
-                      Message is assigned to me or I got mentioned.
+                      A mesangem foi atribuída a mim ou fui mencionado.
                     </FormDescription>
                   </div>
                   <FormControl>
@@ -112,7 +112,7 @@ export function TransactionalEmailsCard({
                   <div className="space-y-0.5">
                     <FormLabel>Weekly summary</FormLabel>
                     <FormDescription>
-                      Summary of all relevant acitivities in the past week.
+                      Resumo de todas as atividades relevantes da semana passada.
                     </FormDescription>
                   </div>
                   <FormControl>
@@ -146,7 +146,7 @@ export function TransactionalEmailsCard({
             loading={methods.formState.isSubmitting}
             onClick={methods.handleSubmit(onSubmit)}
           >
-            Save
+            Salvar
           </Button>
         </CardFooter>
       </Card>

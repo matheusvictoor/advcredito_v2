@@ -28,8 +28,8 @@ import {
 import { EmptyText } from "@workspace/ui/components/empty-text";
 import { Separator } from "@workspace/ui/components/separator";
 
-import { DeleteTenantNoteModal } from "~/components/organizations/slug/tenants/details/notes/delete-tenant-note-modal";
-import { EditTenantNoteModal } from "~/components/organizations/slug/tenants/details/notes/edit-tenant-note-modal";
+// import { DeleteTenantNoteModal } from "~/components/organizations/slug/tenants/details/rentals/delete-tenant-note-modal";
+// import { EditTenantNoteModal } from "~/components/organizations/slug/tenants/details/rentals/edit-tenant-note-modal";
 import { getInitials } from "~/lib/formatters";
 import type { TenantNoteDto } from "~/types/dtos/tenant-note-dto";
 import { formatDateBR } from "~/lib/fomatDateBR";
@@ -42,12 +42,12 @@ export function TenantNoteCard({
   note,
   ...others
 }: TenantNoteCardProps): React.JSX.Element {
-  const handleShowEditTenantNoteModal = (): void => {
-    NiceModal.show(EditTenantNoteModal, { note });
-  };
-  const handleShowDeleteTenantNoteModal = (): void => {
-    NiceModal.show(DeleteTenantNoteModal, { note });
-  };
+  // const handleShowEditTenantNoteModal = (): void => {
+  //   NiceModal.show(EditTenantNoteModal, { note });
+  // };
+  // const handleShowDeleteTenantNoteModal = (): void => {
+  //   NiceModal.show(DeleteTenantNoteModal, { note });
+  // };
   return (
     <Card {...others}>
       <CardHeader className="flex flex-row justify-between space-y-0 py-3">
@@ -66,7 +66,7 @@ export function TenantNoteCard({
               type="button"
               variant="ghost"
               className="size-9"
-              title="Abrir menu"
+              title="Open menu"
             >
               <MoreHorizontalIcon className="size-4 shrink-0" />
               <span className="sr-only">Abrir menu</span>
@@ -75,14 +75,14 @@ export function TenantNoteCard({
           <DropdownMenuContent>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={handleShowEditTenantNoteModal}
+              // onClick={handleShowEditTenantNoteModal}
             >
               Editar
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
               className="!text-destructive cursor-pointer"
-              onClick={handleShowDeleteTenantNoteModal}
+              // onClick={handleShowDeleteTenantNoteModal}
             >
               Excluir
             </DropdownMenuItem>
@@ -94,7 +94,7 @@ export function TenantNoteCard({
         type="button"
         className="h-[calc(100%-60px-48px)] w-full items-start justify-start overflow-y-auto overflow-x-hidden !bg-transparent p-6 text-left text-sm font-normal"
         variant="ghost"
-        onClick={handleShowEditTenantNoteModal}
+        // onClick={handleShowEditTenantNoteModal}
       >
         {note.text ? (
           <div className="text-wrap break-all [&_h1]:mb-5 [&_h1]:text-[25px] [&_h1]:font-bold [&_h2]:mb-5 [&_h2]:text-xl [&_h2]:font-bold [&_li]:mx-8 [&_li]:my-0 [&_ol]:mb-3 [&_p:last-child]:mb-0 [&_p]:relative [&_p]:m-0 [&_ul]:mb-3">

@@ -3,7 +3,6 @@ import {
   type InvitationStatus,
   type TenantRecord,
 } from "@workspace/database";
-import Decimal from "decimal.js";
 
 export type TenantDto = {
   id: string;
@@ -28,8 +27,6 @@ export type TenantDto = {
   propertyType?: PropertyType;
   propertyNumber?: string;
   pendingInstallmentsCount?: number;
-  assetsContractsCount?: number;
-  totalActiveRentals?: Decimal;
   person?: {
     cpf: string;
     birthDate?: Date;

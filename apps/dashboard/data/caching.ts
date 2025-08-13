@@ -34,6 +34,9 @@ export enum OrganizationCacheKey {
   TenantTimelineEvents,
   TenantNotes,
   TenantTasks,
+  TenantFinances,
+  TenantContracts,
+  TenantContract,
 }
 
 export class Caching {

@@ -1,4 +1,5 @@
 import { APP_NAME } from "@workspace/common/app";
+import { PropertyType } from "@workspace/database";
 import { Decimal } from "decimal.js"
 
 export function createTitle(title: string, addSuffix: boolean = true): string {
@@ -112,6 +113,40 @@ export const brazilianStates: BrazilianState[] = [
   { code: "SE", name: "Sergipe" },
   { code: "TO", name: "Tocantins" },
 ];
+
+export const getTypeProperty = (type: PropertyType) => {
+    const types = {
+      APARTMENT: "Apartamento",
+      ATTIC: "Sótão",
+      BUILDING: "Prédio",
+      CHALET: "Chalé",
+      COMMERCIAL_SPACE: "Sala Comercial",
+      CONDOMINIUM: "Condomínio",
+      COUNTRY_HOUSE: "Casa de Campo",
+      FARM: "Fazenda",
+      GARAGE: "Garagem",
+      HOLIDAY_HOME: "Casa de Férias",
+      HOUSE: "Casa",
+      HOTEL: "Hotel",
+      KITNETTE: "Kitnet",
+      LAND: "Terreno",
+      LIVING_ROOM: "Sala de Estar",
+      LOFT: "Loft",
+      LOT: "Lote",
+      MOTORHOME: "Motohome",
+      OFFICE: "Escritório",
+      OTHER: "Outro",
+      PARKING: "Estacionamento",
+      ROOM: "Sala",
+      SHARED_OFFICE: "Escritório Compartilhado",
+      STORE: "Loja",
+      STUDIO: "Estúdio",
+      VILLA: "Vila",
+      WAREHOUSE: "Armazém",
+      WAREHOUSE_BUILDING: "Depósito",
+    };
+    return types[type];
+  };
 
 export const formatValue = (key: string, value: string | null | undefined): string => {
   if (!value) return "";

@@ -42,20 +42,20 @@ export function FeedbackEmail({
               Organization: {organizationName}
             </Text>
             <Text className="text-[14px] leading-[24px] text-black">
-              Name: {name}
+              Nome: {name}
             </Text>
             <Text className="text-[14px] leading-[24px] text-black">
               Email: {email}
             </Text>
             <Text className="text-[14px] leading-[24px] text-black">
-              Category: {category}
+              Categoria: {category}
             </Text>
             <Text className="text-[14px] leading-[24px] text-black">
-              Message: {message}
+              Mensagem: {message}
             </Text>
             <Hr className="mx-0 my-[26px] w-full border border-solid border-[#eaeaea]" />
             <Text className="text-[12px] leading-[24px] text-[#666666]">
-              You receive this email because someone submitted feedback on{" "}
+              Você recebeu esse email porque alguém submeteu um feedback em{" "}
               {appName}.
             </Text>
           </Container>

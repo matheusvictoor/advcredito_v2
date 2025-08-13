@@ -19,7 +19,7 @@ enum ActionType {
 enum ActorType {
   API          @map("api")
   COLLABORATOR @map("collaborator")
-  OWNER        @map("owner")
+  LANDLORD     @map("landlord")
   MEMBER       @map("member") // talvez seja necessario remover posteriormente
   SYSTEM       @map("system")
 }
@@ -44,6 +44,16 @@ enum ContactTaskStatus {
   COMPLETED @map("completed")
 }
 
+enum ChargeType {
+  IPTU           @map("iptu")
+  WATER          @map("water")
+  LIGHT          @map("light")
+  GAS            @map("map")
+  CONDOMINIUM    @map("condominium")
+  INSURANCE_FIRE @map("insuranceFire")
+  OTHER          @map("other")
+}
+
 enum DayOfWeek {
   SUNDAY    @map("sunday")
   MONDAY    @map("monday")
@@ -66,12 +76,12 @@ enum InvitationStatus {
   REVOKED  @map("revoked")
 }
 
-enum OwnerRecord {
+enum LandlordRecord {
   PERSON  @map("person")
   COMPANY @map("company")
 }
 
-enum PropertyCategory {
+enum PropertyUse {
   RESIDENTIAL  @map("residential")
   COMMERCIAL   @map("commercial")
   INDUSTRIAL   @map("industrial")
@@ -79,6 +89,8 @@ enum PropertyCategory {
   AGRICULTURAL @map("agricultural")
   GOVERNMENT   @map("government")
   OTHER        @map("other")
+
+  @@map("PropertyUse")
 }
 
 enum PropertyType {
@@ -112,18 +124,27 @@ enum PropertyType {
   WAREHOUSE_BUILDING @map("warehouseBuilding")
 }
 
+enum PaymentType {
+  BILLET   @map("billet")
+  PIX      @map("pix")
+  CASH     @map("cash")
+  TRANSFER @map("transfer")
+}
+
 enum Role {
   MEMBER @map("member")
   ADMIN  @map("admin")
 }
 
-enum RentalType {
+enum ContractualPeriod {
   ANNUAL      @map("annual")
   DAILY       @map("daily")
   FORTNIGHTLY @map("fortnightly")
   MONTHLY     @map("monthly")
   SEASONAL    @map("seasonal")
   WEEKLY      @map("weekly")
+
+  @@map("ConractType")
 }
 
 enum StatusContract {
@@ -203,7 +224,7 @@ model Account {
 model ApiKey {
   id             String       @id(map: "PK_ApiKey") @default(uuid()) @db.Uuid
   organizationId String       @db.Uuid
-  description    String       @db.VarChar(70)
+  description    String       @db.VarChar()
   hashedKey      String       @unique()
   expiresAt      DateTime?
   lastUsedAt     DateTime?
@@ -397,7 +418,7 @@ model Membership {
   organizationId String       @db.Uuid
   userId         String       @db.Uuid
   role           Role         @default(MEMBER)
-  isOwner        Boolean      @default(false)
+  isLandlord     Boolean      @default(false)
   createdAt      DateTime     @default(now())
   user           User         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
@@ -511,6 +532,7 @@ model User {
   notifications                Notification[]
   pageVisits                   TenantPageVisit[]
   sessions                     Session[]
+  contracts                    Contract[]
 }
 
 model UserImage {
@@ -565,46 +587,201 @@ model WorkTimeSlot {
 }
 
 model Actor {
-  id            String     @id(map: "PK_Actor") @default(uuid()) @db.Uuid
-  image         String?    @db.VarChar(2048)
-  name          String     @db.VarChar(64)
-  cpf           String     @unique @db.VarChar(11)
-  phone         String?    @db.VarChar(11)
-  email         String     @unique @db.VarChar(64)
+  id            String    @id(map: "PK_Actor") @default(uuid()) @db.Uuid
+  image         String?   @db.VarChar(2048)
+  name          String    @db.VarChar(64)
+  cpf           String    @unique @db.VarChar(11)
+  phone         String?   @db.VarChar(11)
+  email         String    @unique @db.VarChar(64)
   emailVerified DateTime?
-  password      String     @db.VarChar(64)
+  password      String    @db.VarChar(64)
   lastLogin     DateTime?
-  role          Role       @default(MEMBER)
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
-  contracts     Contract[]
+  role          Role      @default(MEMBER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  // contracts     Contract[]
   // pageVisits    TenantPageVisit[]
   // comments      TenantComment[]
   // notes         TenantNote[]
 }
 
+model Charge {
+  id          String     @id(map: "PK_Charge") @default(uuid()) @db.Uuid
+  contractId  String     @db.Uuid
+  propertyId  String     @db.Uuid
+  value       Decimal    @default("0.00") @db.Decimal(8, 2)
+  type        ChargeType @default(OTHER)
+  due         DateTime?
+  description String?    @db.VarChar(128)
+  contract    Contract   @relation(fields: [contractId], references: [id])
+  property    Property   @relation(fields: [propertyId], references: [id])
+
+  @@index([contractId])
+}
+
 model Contract {
-  id             String         @id(map: "PK_Contract") @default(uuid()) @db.Uuid
-  userId         String         @db.Uuid
-  tenantId       String         @db.Uuid
-  propertyId     String         @db.Uuid
-  subscriptionId String         @unique @db.Uuid
-  startContract  DateTime       @default(now())
-  endContract    DateTime
-  dueDate        DateTime
-  rental         Decimal        @default("0.00") @db.Decimal(8, 2)
-  status         StatusContract @default(ACTIVE)
-  observation    String?        @db.VarChar(255)
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
-  tenant         Tenant         @relation(fields: [tenantId], references: [id])
-  user           Actor          @relation(fields: [userId], references: [id])
-  propertys      Property[]
-  subscription   Subscription   @relation(fields: [subscriptionId], references: [id])
-  payments       Payment[]
+  id             String @id(map: "PK_Contract") @default(uuid()) @db.Uuid
+  userId         String @db.Uuid
+  tenantId       String @db.Uuid
+  propertyId     String @db.Uuid
+  subscriptionId String @unique @db.Uuid
+
+  startContract DateTime       @default(now())
+  endContract   DateTime
+  rental        Decimal        @default("0.00") @db.Decimal(10, 2)
+  furnished     Boolean        @default(false)
+  dueRental     DateTime
+  totalCharges  Decimal        @default("0.00") @db.Decimal(8, 2)
+  floor         Int?           @db.Integer
+  paymentType   PaymentType    @default(BILLET)
+  propertyType  PropertyType   @default(HOUSE)
+  propertyUse   PropertyUse    @default(RESIDENTIAL)
+  status        StatusContract @default(ACTIVE)
+  forumCity     String         @db.VarChar(64)
+  observation   String?        @db.VarChar(255)
+
+  p_street       String  @db.VarChar(64)
+  p_number       String  @db.VarChar(10)
+  p_neighborhood String  @db.VarChar(64)
+  p_zipcode      String  @db.VarChar(10)
+  p_city         String  @db.VarChar(64)
+  p_state        String  @db.VarChar(2)
+  p_country      String  @default("Brasil") @db.VarChar(32)
+  p_complement   String? @db.VarChar(255)
+
+  l_name         String  @db.VarChar(64)
+  l_doc          String  @db.VarChar(14)
+  l_email        String? @db.VarChar(64)
+  l_phone        String? @db.VarChar(11)
+  l_street       String  @db.VarChar(64)
+  l_number       String  @db.VarChar(10)
+  l_neighborhood String  @db.VarChar(64)
+  l_zipcode      String  @db.VarChar(10)
+  l_city         String  @db.VarChar(64)
+  l_state        String  @db.VarChar(2)
+  l_country      String  @default("Brasil") @db.VarChar(32)
+  l_complement   String? @db.VarChar(255)
+
+  t_name         String  @db.VarChar(64)
+  t_doc          String  @db.VarChar(14)
+  t_email        String  @db.VarChar(64)
+  t_phone        String  @db.VarChar(11)
+  t_street       String? @db.VarChar(64)
+  t_number       String? @db.VarChar(10)
+  t_neighborhood String? @db.VarChar(64)
+  t_zipcode      String? @db.VarChar(10)
+  t_city         String? @db.VarChar(64)
+  t_state        String? @db.VarChar(2)
+  t_country      String? @default("Brasil") @db.VarChar(32)
+  t_complement   String? @db.VarChar(255)
+
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  tenant       Tenant       @relation(fields: [tenantId], references: [id])
+  user         User         @relation(fields: [userId], references: [id])
+  property     Property     @relation(fields: [propertyId], references: [id])
+  subscription Subscription @relation(fields: [subscriptionId], references: [id])
+  charges      Charge[]
+  payments     Payment[]
 
   @@index([tenantId], map: "IX_Contract_tenantId")
   @@index([propertyId], map: "IX_Contract_propertyId")
+  @@map("Contract")
+}
+
+model Landlord {
+  id              String           @id(map: "PK_Landlord") @default(uuid()) @db.Uuid
+  slug            String           @unique @db.VarChar(21)
+  image           String?          @db.VarChar(2048)
+  record          LandlordRecord   @default(PERSON)
+  name            String           @db.VarChar(64)
+  email           String           @unique @db.VarChar(64)
+  phone           String           @unique @db.VarChar(11)
+  archived        Boolean          @default(false)
+  street          String?          @db.VarChar(64)
+  number          String?          @db.VarChar(10)
+  neighborhood    String?          @db.VarChar(64)
+  zipcode         String?          @db.VarChar(10)
+  city            String?          @db.VarChar(64)
+  complement      String?          @db.VarChar(255)
+  state           String?          @db.VarChar(2)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  LandlordImage   LandlordImage?
+  LandlordPerson  LandlordPerson?
+  LandlordCompany LandlordCompany?
+  propertys       Property[]
+}
+
+model LandlordImage {
+  landlordId  String   @id(map: "PK_LandlordImage") @default(uuid()) @db.Uuid
+  data        Bytes?
+  contentType String?  @db.VarChar(255)
+  hash        String?  @db.VarChar(64)
+  landlord    Landlord @relation(fields: [landlordId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model LandlordPerson {
+  landlordId String   @id(map: "PK_LandlordPerson") @default(uuid()) @db.Uuid
+  cpf        String   @unique @db.VarChar(11)
+  dateBirth  DateTime
+  landlord   Landlord @relation(fields: [landlordId], references: [id], onDelete: Cascade)
+
+  @@index([cpf], map: "IX_LandlordPerson_cpf")
+}
+
+model LandlordCompany {
+  landlordId String   @id(map: "PK_LandlordCompany") @default(uuid()) @db.Uuid
+  cnpj       String   @unique @db.VarChar(14)
+  landlord   Landlord @relation(fields: [landlordId], references: [id], onDelete: Cascade)
+
+  @@index([cnpj], map: "IX_LandlordCompany_cnpj")
+}
+
+model Property {
+  id                String            @id(map: "PK_Property") @default(uuid()) @db.Uuid
+  landlordId        String            @db.Uuid
+  street            String            @db.VarChar(64)
+  number            String            @db.VarChar(10)
+  neighborhood      String            @db.VarChar(64)
+  complement        String?           @db.VarChar(255)
+  zipcode           String            @db.VarChar(10)
+  city              String            @db.VarChar(64)
+  state             String            @db.VarChar(2)
+  floor             Int?              @db.Integer
+  aptNumber         String?           @db.VarChar(10)
+  propertyType      PropertyType      @default(HOUSE)
+  propertyUse       PropertyUse       @default(RESIDENTIAL)
+  category          PropertyUse       @default(RESIDENTIAL)
+  contractualPeriod ContractualPeriod @default(ANNUAL)
+  furnished         Boolean           @default(false)
+  nRoom             Int?              @db.Integer
+  nSuite            Int?              @db.Integer
+  nBathroom         Int?              @db.Integer
+  parkingSpaces     Int?              @db.Integer
+  areaLand          Float?
+  areaBuild         Float?
+  canAnimal         Boolean           @default(false)
+  observation       String?           @db.VarChar(255)
+  propertyValue     Decimal?          @default("0.00") @db.Decimal(10, 2)
+  rental            Decimal?          @default("0.00") @db.Decimal(10, 2)
+  status            StatusProperty    @default(ACTIVE)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  charges           Charge[]
+  contract          Contract[]
+  landlord          Landlord          @relation(fields: [landlordId], references: [id])
+}
+
+model Plan {
+  id            Int            @id(map: "PK_Plan") @default(autoincrement()) @db.Integer
+  name          String         @db.VarChar(64)
+  interval      Int            @db.Integer
+  amount        Decimal        @default("0.00") @db.Decimal(8, 2)
+  repetition    Int? //null para que seja gerado indefinidamente
+  creadedAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  subscriptions Subscription[]
 }
 
 model Payment {
@@ -618,107 +795,9 @@ model Payment {
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
   tenant      Tenant           @relation(fields: [tenantId], references: [id])
-  contract    Contract?        @relation(fields: [contractId], references: [id])
+  rental      Contract?        @relation(fields: [contractId], references: [id])
 
   @@index([tenantId], map: "IX_Payment_tenantId")
-}
-
-model Owner {
-  id           String        @id(map: "PK_Owner") @default(uuid()) @db.Uuid
-  slug         String        @unique @db.VarChar(21)
-  image        String?       @db.VarChar(2048)
-  record       OwnerRecord   @default(PERSON)
-  name         String        @db.VarChar(64)
-  email        String        @unique @db.VarChar(64)
-  phone        String        @unique @db.VarChar(11)
-  archived     Boolean       @default(false)
-  street       String?       @db.VarChar(64)
-  number       String?       @db.VarChar(10)
-  neighborhood String?       @db.VarChar(64)
-  zipcode      String?       @db.VarChar(10)
-  city         String?       @db.VarChar(64)
-  complement   String?       @db.VarChar(255)
-  state        String?       @db.VarChar(64)
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  ownerImage   OwnerImage?
-  ownerPerson  OwnerPerson?
-  ownerCompany OwnerCompany?
-  propertys    Property[]
-}
-
-model OwnerImage {
-  ownerId     String  @id(map: "PK_OwnerImage") @default(uuid()) @db.Uuid
-  data        Bytes?
-  contentType String? @db.VarChar(255)
-  hash        String? @db.VarChar(64)
-  owner       Owner   @relation(fields: [ownerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-}
-
-model OwnerPerson {
-  ownerId   String   @id(map: "PK_OwnerPerson") @default(uuid()) @db.Uuid
-  cpf       String   @unique @db.VarChar(11)
-  dateBirth DateTime
-  owner     Owner    @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-
-  @@index([cpf], map: "IX_OwnerPerson_cpf")
-}
-
-model OwnerCompany {
-  ownerId String @id(map: "PK_OwnerCompany") @default(uuid()) @db.Uuid
-  cnpj    String @unique @db.VarChar(14)
-  owner   Owner  @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-
-  @@index([cnpj], map: "IX_OwnerCompany_cnpj")
-}
-
-model Property {
-  id             String           @id(map: "PK_Property") @default(uuid()) @db.Uuid
-  ownerId        String           @db.Uuid
-  street         String           @db.VarChar(64)
-  number         String           @db.VarChar(10)
-  neighborhood   String           @db.VarChar(64)
-  complement     String?          @db.VarChar(255)
-  zipcode        String           @db.VarChar(10)
-  city           String           @db.VarChar(64)
-  state          String           @db.VarChar(64)
-  floor          Int?             @db.Integer
-  type           PropertyType     @default(HOUSE)
-  category       PropertyCategory @default(RESIDENTIAL)
-  typeRental     RentalType       @default(ANNUAL)
-  furnished      Boolean          @default(false)
-  nRoom          Int?             @db.Integer
-  nSuite         Int?             @db.Integer
-  nBathroom      Int?             @db.Integer
-  parkingSpaces  Int?             @db.Integer
-  areaLand       Float?
-  areaBuild      Float?
-  canAnimal      Boolean          @default(false)
-  observation    String?          @db.VarChar(255)
-  vProperty      Decimal?         @default("0.00") @db.Decimal(10, 2)
-  vRental        Decimal?         @default("0.00") @db.Decimal(8, 2)
-  vCondominium   Decimal?         @default("0.00") @db.Decimal(8, 2)
-  vIptu          Decimal?         @default("0.00") @db.Decimal(8, 2)
-  vSafe          Decimal?         @default("0.00") @db.Decimal(8, 2)
-  dueIptu        DateTime?
-  dueCondominium DateTime?
-  dueSafe        DateTime?
-  status         StatusProperty   @default(ACTIVE)
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  contracts      Contract[]
-  owner          Owner            @relation(fields: [ownerId], references: [id])
-}
-
-model Plan {
-  id            Int            @id(map: "PK_Plan") @default(autoincrement()) @db.Integer
-  name          String         @db.VarChar(64)
-  interval      Int            @db.Integer
-  amount        Decimal        @default("0.00") @db.Decimal(8, 2)
-  repetition    Int? //null para que seja gerado indefinidamente
-  creadedAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  subscriptions Subscription[]
 }
 
 model Subscription {
@@ -733,7 +812,7 @@ model Subscription {
   updatedAt   DateTime           @updatedAt
   plan        Plan               @relation(fields: [planId], references: [id])
   tenant      Tenant             @relation(fields: [tenantId], references: [id])
-  contract    Contract?
+  rental      Contract?
 }
 
 model Tenant {

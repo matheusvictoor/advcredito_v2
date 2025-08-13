@@ -17,7 +17,6 @@ import {
   type GetTenantSchema,
 } from "~/schemas/tenants/get-tenant-schema";
 import type { TenantDto } from "~/types/dtos/tenant-dto";
-import Decimal from "decimal.js";
 
 export async function getTenant(input: GetTenantSchema): Promise<TenantDto> {
   const ctx = await getAuthOrganizationContext();
@@ -66,14 +65,14 @@ export async function getTenant(input: GetTenantSchema): Promise<TenantDto> {
           },
           _count: {
             select: {
-              contracts: {
+              rentals: {
                 where: {
                   status: "ACTIVE",
                 },
               },
             },
           },
-          contracts: {
+          rentals: {
             where: {
               status: "ACTIVE",
             },
@@ -107,13 +106,6 @@ export async function getTenant(input: GetTenantSchema): Promise<TenantDto> {
         createdAt: tenant.createdAt,
         person: tenant.person ? tenant.person : undefined,
         company: tenant.company ? tenant.company : undefined,
-        assetsContractsCount: tenant._count.contracts,
-        totalActiveRentals: tenant.contracts.reduce(
-          (sum: Decimal, contract) => {
-            return sum.plus(contract.rental ?? new Decimal(0));
-          },
-          new Decimal(0),
-        ),
       };
 
       return response;

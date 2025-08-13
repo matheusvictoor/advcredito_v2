@@ -32,7 +32,6 @@ import { DeleteTenantNoteModal } from "~/components/organizations/slug/tenants/d
 import { EditTenantNoteModal } from "~/components/organizations/slug/tenants/details/notes/edit-tenant-note-modal";
 import { getInitials } from "~/lib/formatters";
 import type { TenantNoteDto } from "~/types/dtos/tenant-note-dto";
-import { formatDateBR } from "~/lib/fomatDateBR";
 
 type TenantNoteCardProps = CardProps & {
   note: TenantNoteDto;
@@ -66,7 +65,7 @@ export function TenantNoteCard({
               type="button"
               variant="ghost"
               className="size-9"
-              title="Abrir menu"
+              title="Open menu"
             >
               <MoreHorizontalIcon className="size-4 shrink-0" />
               <span className="sr-only">Abrir menu</span>
@@ -112,7 +111,7 @@ export function TenantNoteCard({
       <CardFooter className="flex h-12 flex-row items-center justify-between py-0">
         <div className="flex items-center space-x-1 text-sm text-muted-foreground">
           <ClockIcon className="size-3 shrink-0" />
-          <time>{formatDateBR(note.createdAt, "dd MMMM yyyy")}</time>
+          <time>{format(note.createdAt, "MMM dd, yyyy")}</time>
         </div>
       </CardFooter>
     </Card>

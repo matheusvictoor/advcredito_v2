@@ -16,7 +16,6 @@ import { TenantsDataTable } from "~/components/organizations/slug/tenants/tenant
 import { TenantsEmptyState } from "~/components/organizations/slug/tenants/tenants-empty-state";
 import { TenantsFilters } from "~/components/organizations/slug/tenants/tenants-filters";
 import { searchParamsCache } from "~/components/organizations/slug/tenants/tenants-search-params";
-import { getContactTags } from "~/data/tenants/get-contact-tags";
 import { getTenants } from "~/data/tenants/get-tenants";
 import { TransitionProvider } from "~/hooks/use-transition-context";
 import { createTitle } from "~/lib/formatters";

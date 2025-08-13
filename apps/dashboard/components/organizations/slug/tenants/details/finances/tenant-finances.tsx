@@ -19,13 +19,16 @@ import Decimal from "decimal.js";
 import { useRouter } from "next/navigation";
 import { replaceOrgSlug, routes } from "@workspace/routes";
 import { useActiveOrganization } from "~/hooks/use-active-organization";
+import { TenantFinancesDto } from "~/types/dtos/tenant-finances-dto";
 
 export type TenantFinancesProps = {
   tenant: TenantDto;
+  finances: TenantFinancesDto
 };
 
 export function TenantFinances({
   tenant,
+  finances,
 }: TenantFinancesProps): React.JSX.Element {
   const router = useRouter();
   const activeOrganization = useActiveOrganization();
@@ -81,10 +84,10 @@ export function TenantFinances({
             </CardHeader>
             <CardContent>
               <p className="text-2xl font-bold text-green-600">
-                {formatCurrency(tenant.totalActiveRentals ?? 0)}
+                {formatCurrency(Decimal(finances.totalActiveRentals ?? 0))}
               </p>
               <CardDescription className="mt-2">
-                {tenant.assetsContractsCount ? "contratos ativos" : "Nenhum contrato ativo"}
+                {finances.assetsContractsCount ? "contratos ativos" : "Nenhum contrato ativo"}
               </CardDescription>
             </CardContent>
           </Card>
